@@ -12,15 +12,13 @@
         <!-- meta code copied from ihazmemes.html -->
     </head>
     <body>
-    <h1>Filter: Geschlecht</h1>
-    <form action="/cgi-bin/filter.sh" method="get">
-        <label for="gender">Geschlecht:</label>
-        <select name="gender" id="gender">
-            <option value="alle">Alle</option>
-            <option value="Femme">Frau</option>
-            <option value="Homme">Mann</option>
-        </select>
-        <input type="submit" value="Filtern">
-    </form>
-</body>
+        <h1>Filter: Geschlecht</h1>
+        ll
+        <form action="answersheet.php" method="post">
+            Testformular:<br>
+            <input type="text" name="test">
+            <input type="text" name="test2">
+            <input type="submit" value="Submit">
+        </form>
+    </body>
 </html>
