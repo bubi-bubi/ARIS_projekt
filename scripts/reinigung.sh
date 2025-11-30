@@ -1,11 +1,10 @@
 #!/bin/bash
 
-sed 's/Année/jahr/' |
-sed 's/Mois/monat/' |
-sed 's/Semaine/woche/' |
-sed 's/Date début semaine/wstart/' |
-sed 's/Femmes 0-64/wjung/' |
-sed 's/Femmes 65+/walt/' |
-sed 's/Hommes 0-64/mjung/' |
-sed 's/Hommes 65+/malt/' |
-sed 's/Total/total/';
+sed 's/Année/Jahr/' |
+sed 's/Mois/Monat/' |
+sed 's/Semaine/Woche/' |
+sed 's/Date début semaine/Wochenstart/' |
+sed 's/Femmes 0-64/Frauen 0-64/' |
+sed 's/Femmes 65+/Frauen 65+/' |
+sed 's/Hommes 0-64/Männer 0-64/' |
+sed 's/Hommes 65+/Männer 65+/';
