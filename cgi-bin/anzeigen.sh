@@ -5,7 +5,6 @@ DATEI_PFAD="../data/todesfälle.csv"
 echo "Content-type: text/html"
 echo ""
 echo "<html><head>"
-echo "<meta charset="utf8">
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle </title>"
 echo "</head>"
