@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-DATEI_PFAD="../data/todesfälle.csv"
+DATEI_PFAD="../data/encoded-todesfälle.csv"
 
 echo "Content-type: text/html"
 echo ""
