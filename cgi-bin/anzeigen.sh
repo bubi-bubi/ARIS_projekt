@@ -3,6 +3,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 DATEI_PFAD="../data/encoded-todesfälle.csv"
+#es muss noch die Paginierung ermöglicht werden!
 
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
