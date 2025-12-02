@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-# Pfadanagabe
+# Pfad zur CSV-Datei
 DATEI_PFAD="../data/encoded-todesfälle.csv"
 
 # Paginierung
@@ -13,7 +13,7 @@ PER_PAGE=20
 PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
 PAGE=${PAGE:-1}
 
-# Filter: Gender & Jahr
+# Filter auslesen
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
 YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
 
@@ -71,27 +71,41 @@ echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
 
 echo "</table>"
 
-# Pagination mit Back / Next
+# Paging: Back / Next
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
-    LINK_BASE="test1.sh"
-    [ -n "$FILTER" ] && LINK_BASE="${LINK_BASE}?filter=$FILTER"
-    [ -n "$YEAR" ] && LINK_BASE="${LINK_BASE}${LINK_BASE#*\?}&year=$YEAR"
 
-    echo "<p>"
+    # Parameter für Links vorbereiten
+    LINK_BASE="test1.sh"
+    PARAMS=()
+    [ -n "$FILTER" ] && PARAMS+=("filter=$FILTER")
+    [ -n "$YEAR" ] && PARAMS+=("year=$YEAR")
+    build_link() {
+        local page=$1
+        local link="$LINK_BASE"
+        if [ ${#PARAMS[@]} -gt 0 ]; then
+            link="${link}?$(IFS='&'; echo "${PARAMS[*]}")&page=$page"
+        else
+            link="${link}?page=$page"
+        fi
+        echo "$link"
+    }
+
     # Back-Button
     if [ "$PAGE" -gt 1 ]; then
         PREV=$((PAGE-1))
-        echo "<a href='${LINK_BASE}&page=$PREV'>Back</a> "
+        echo "<a href='$(build_link $PREV)'>Back</a> "
     fi
+
     # Aktuelle Seite
     echo "<strong>$PAGE</strong>"
+
     # Next-Button
     if [ "$PAGE" -lt "$TOTAL_PAGES" ]; then
         NEXT=$((PAGE+1))
-        echo " <a href='${LINK_BASE}&page=$NEXT'>Next</a>"
+        echo " <a href='$(build_link $NEXT)'>Next</a>"
     fi
-    echo "</p>"
+
     echo "</div>"
 fi
 
