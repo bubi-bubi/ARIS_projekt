@@ -1,6 +1,8 @@
 #!/bin/bash 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+echo "Content-type: text/html; charset=UTF-8"
+echo ""
 
 # Pfad zur CSV-Datei
 DATEI_PFAD="../data/encoded-todesfälle.csv"
@@ -8,7 +10,7 @@ DATEI_PFAD="../data/encoded-todesfälle.csv"
 # Konfiguration
 PER_PAGE=20
 
-# GET-Parameter (page)
+# GET-Parameter
 PAGE=$(echo "$QUERY_STRING" | sed -n 's/^page=\([0-9]*\)$/\1/p')
 PAGE=${PAGE:-1}
 
@@ -17,8 +19,7 @@ START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
 # HTML HEADER
-echo "Content-type: text/html; charset=UTF-8"
-echo ""
+
 echo "<html><head>"
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
