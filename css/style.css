@@ -37,18 +37,18 @@ header {
     overflow: hidden;
 }
 
-.anzeige-table th {
-    background: blue;
+.anzeige-table th { /* Tabellenkopf */
+    background: rgb(23, 23, 50);
     color: white;
     padding: 10px;
     text-align: left;
 }
 
-.anzeige-table td {
+.anzeige-table td { /* Tabellendaten */
     padding: 8px 10px;
     border-bottom: 1px solid #ddd;
 }
 
 .anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
-    background: #b9328a; 
+    background: #d5a8c5; 
 }

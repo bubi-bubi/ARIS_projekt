@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head> 
+<html lang="de">
+<head>
         <title> formular </title>
         <meta charset="utf8">
         <meta name="description" content="semesterprojekt für aris">
         <meta name="keywords" content="HTML, CSS, data, formular, forms, project">
-        <meta name="author" content="nova jost">
+        <meta name="author" content="nova jost, djamilija heininger, sonja mathis">
         <meta name="date" content="23.10.25"
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css" type="text/css">
-        <!-- meta code copied from ihazmemes.html -->
-    </head>
-    <body>
-    <h1>Filter: Geschlecht</h1>
-    <form action="/cgi-bin/test1.sh" method="get">
-        <label for="gender">Geschlecht:</label>
-        <select name="gender" id="gender">
-            <option value="alle">Alle</option>
-            <option value="Femme">Frau</option>
-            <option value="Homme">Mann</option>
-        </select>
-        <input type="submit" value="Filtern">
-    </form>
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+    
+</head>
+<body>
+    <header>
+        <h1>Todesfälle Freiburg</h1>
+    </header>
+
+    <section>
+        <h2>Daten filtern</h2>
+        <form action="cgi-bin/anzeigen.sh" method="get">
+            <label for="filter">Filter auswählen:</label>
+            <select name="filter" id="filter">
+                <option value="">Alle Daten</option>
+                <option value="frauen">Frauen</option>
+                <option value="maenner">Männer</option>
+            </select>
+            <input type="submit" value="Anzeigen">
+        </form>
+
+        <p>Oder direkt anzeigen:</p>
+        <ul>
+            <li><a href="cgi-bin/anzeigen.sh">Alle Daten anzeigen</a></li>
+            <li><a href="cgi-bin/anzeigen.sh?filter=frauen">Nur Frauen anzeigen</a></li>
+            <li><a href="cgi-bin/anzeigen.sh?filter=maenner">Nur Männer anzeigen</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; Todesfälle Freiburg</p>
+    </footer>
 </body>
 </html>
