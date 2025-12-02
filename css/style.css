@@ -28,7 +28,7 @@ header {
     }
 
 /* CSS für Tabelle */
-table {
+.anzeige-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -37,18 +37,18 @@ table {
     overflow: hidden;
 }
 
-th {
-    background: #0055a5;
+.anzeige-table th {
+    background: blue;
     color: white;
     padding: 10px;
     text-align: left;
 }
 
-td {
+.anzeige-table td {
     padding: 8px 10px;
     border-bottom: 1px solid #ddd;
 }
 
-tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
-    background: #f0f8ff;   /* sehr helles Blau */
+.anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
+    background: #b9328a; 
 }

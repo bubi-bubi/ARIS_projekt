@@ -16,11 +16,11 @@ END=$(( START + PER_PAGE - 1 ))
 echo "<html><head>"
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
-echo "</head><body>"
+echo "</head><body> class=\"anzeige\">"
 echo "<header><h1>Todesfälle</h1></header>"
 
 #CSV als TAbelle
-echo "<table border='1' cellpadding='6' cellspacing='0'>"
+echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>"
 
 # Kopfzeile (Header)
 head -n 1 "$DATEI_PFAD" | awk -F';' '{
