@@ -5,9 +5,8 @@ export LANG=en_US.UTF-8
 # Pfad zur CSV-Datei
 DATEI_PFAD="../data/encoded-todesfälle.csv"
 
-#############################################
-# PARAMETER EINLESEN
-#############################################
+
+# PARAMETER --------------------------------------------------------------------------------
 
 # Paginierung
 PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
@@ -20,10 +19,8 @@ YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
 # Action: anzeigen oder plot
 ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | tr 'A-Z' 'a-z')
 
-#############################################
-# DATEN FILTERN (für Tabelle und Plot)
-#############################################
 
+# FILTERN ----------------------------------------------------------------------------------------------
 FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
     if(year!="" && $1!=year) next
@@ -38,10 +35,8 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-#############################################
-#   PLOT – wenn Nutzer auf "plot" klickt
-#############################################
 
+# PLOT KLICKEN--------------------------------------------------------------------------------------------
 if [ "$ACTION" = "plot" ]; then
 
     # Gnuplot-Daten vorbereiten
@@ -52,7 +47,7 @@ if [ "$ACTION" = "plot" ]; then
         echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
     fi
 
-    # Erstes und letztes Datum holen
+    # Erstes und letztes Datum
     X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
     LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')
 
@@ -61,7 +56,7 @@ if [ "$ACTION" = "plot" ]; then
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-# Filtertext vorbereiten
+# Filtertext
 if [ -z "$FILTER" ]; then
     FILTER_TEXT="Alle"
 else
@@ -74,6 +69,7 @@ else
     YEAR_TEXT="$YEAR"
 fi
 
+#Gestaltung Gnuplot
 gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
@@ -99,34 +95,27 @@ EOF
     exit 0
 fi
 
-#############################################
-#   HTML AUSGABE – wenn "anzeigen" geklickt wurde
-#############################################
-
+#HTML AUSGABE NACH ANZEIGE----------------------------------------------------------------------------
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-# Paginierung vorbereiten (nur für Tabelle)
+# Paginierung
 PER_PAGE=20
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
 TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-#############################################
-# HTML HEADER
-#############################################
 
+# HTML HEADER------------------------------------------------------------------------------------------
 echo "<html><head>"
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
 echo "</head><body class=\"anzeige\">"
 echo "<header><h1>Todesfälle Freiburg</h1></header>"
 
-#############################################
-# TABELLE
-#############################################
 
+# TABELLE --------------------------------------------------------------------------------------------------
 echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>"
 
 # Tabellenkopf
@@ -154,10 +143,7 @@ echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
 
 echo "</table>"
 
-#############################################
-# PAGING
-#############################################
-
+# PAGING--------------------------------------------------------------------------------------------------
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
 
@@ -194,10 +180,7 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-#############################################
-# FOOTER
-#############################################
-
+# FOOTER-------------------------------------------------------------------------------------------------
 echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
