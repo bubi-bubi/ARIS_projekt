@@ -44,8 +44,13 @@ NR>1 {
 
 if [ "$ACTION" = "plot" ]; then
 
-    # Gnuplot-Daten vorbereiten: x=NR, y=Total
-    echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
+    # Gnuplot-Daten vorbereiten
+    # x = NR, y = Total / Summe Frauen / Summe Männer
+    if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
+        echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
+    else
+        echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
+    fi
 
     # Erstes und letztes Datum holen
     X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
@@ -62,13 +67,13 @@ set output "$TMP_PNG"
 
 set title "Todesfälle Freiburg (gefiltert)"
 set xlabel "Zeitraum"
-set ylabel "Total"
+set ylabel "Anzahl Todesfälle"
 set grid
 
 set xtics rotate by 45 right
 set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
-plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Total"
+plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
 
     echo "Content-Type: image/png"
