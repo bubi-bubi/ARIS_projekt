@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-        <title> formular </title>
-        <meta charset="utf8">
-        <meta name="description" content="semesterprojekt für aris">
-        <meta name="keywords" content="HTML, CSS, data, formular, forms, project">
-        <meta name="author" content="nova jost, djamilja heiniger, sonja mathis">
-        <meta name="date" content="23.10.25">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
-    
+    <title>Formular</title>
+    <meta charset="utf-8">
+    <meta name="description" content="semesterprojekt für aris">
+    <meta name="keywords" content="HTML, CSS, data, formular, forms, project">
+    <meta name="author" content="nova jost, djamilja heiniger, sonja mathis">
+    <meta name="date" content="23.10.25">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
     <header>
@@ -18,31 +17,30 @@
 
     <section>
         <h2>Daten filtern</h2>
-       <form action="cgi-bin/test1.sh" method="get" id="filterForm">
-    <label for="filter">Filter auswählen:</label>
-    <select name="filter" id="filter">
-        <option value="">Alle Daten</option>
-        <option value="frauen">Frauen</option>
-        <option value="maenner">Männer</option>
-    </select>
+        <form action="cgi-bin/test1.sh" method="get" id="filterForm">
+            <label for="filter">Filter auswählen:</label>
+            <select name="filter" id="filter">
+                <option value="">Alle Daten</option>
+                <option value="frauen">Frauen</option>
+                <option value="maenner">Männer</option>
+            </select>
 
-    <label for="year">Jahr auswählen:</label>
-    <select name="year" id="year">
-        <option value="">Alle Jahre</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-    </select>
+            <label for="year">Jahr auswählen:</label>
+            <select name="year" id="year">
+                <option value="">Alle Jahre</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
 
-    <!-- Normaler Submit-Button sendet ohne plot= -->
-    <input type="submit" value="Anzeigen">
+            <input type="hidden" name="plot" id="plotInput" value="0">
 
-    <!-- Plot-Button setzt zusätzlich plot=1 -->
-    <button type="submit" onclick="document.getElementById('filterForm').action='cgi-bin/test1.sh?plot=1';">Plot</button>
-</form>
+            <input type="submit" value="Anzeigen" onclick="document.getElementById('plotInput').value='0';">
+            <input type="submit" value="Plot" onclick="document.getElementById('plotInput').value='1';">
+        </form>
     </section>
 
     <footer>

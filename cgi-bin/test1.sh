@@ -2,6 +2,8 @@
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+PER_PAGE=20
+
 # Parameter aus QUERY_STRING auslesen
 QUERY_STRING="${QUERY_STRING:-$1}"
 
@@ -13,8 +15,16 @@ PLOT=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^plot=' | cut -d'=' -f2)
 
 DATEI_PFAD="../data/encoded-todesfälle.csv"
 
-# Filterte Daten vorbereiten (wie vorher, evtl. anpassen)
+# Filtertext für Titel (optional, zur Anzeige)
+filtertext="Alle"
+if [ "$FILTER" = "frauen" ]; then
+    filtertext="Frauen"
+elif [ "$FILTER" = "maenner" ]; then
+    filtertext="Männer"
+fi
+yeartext=${YEAR:-"Alle Jahre"}
 
+# Gefilterte Daten vorbereiten
 FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
     if(year!="" && $1!=year) next
@@ -29,45 +39,53 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-# Wenn Plot angefordert, Bild erzeugen und direkt ausgeben:
-if [ "$PLOT" == "1" ]; then
-    # Temporäre Datei für Plot-Daten
-    PLOT_DATA_FILE="/tmp/plot_data.txt"
+# Funktion build_link außerhalb der if-Blöcke, für Paging
+build_link() {
+    local page=$1
+    local link="test1.sh"
+    local params=()
+    [ -n "$FILTER" ] && params+=("filter=$FILTER")
+    [ -n "$YEAR" ] && params+=("year=$YEAR")
+    [ ${#params[@]} -gt 0 ] && link="${link}?$(IFS='&'; echo "${params[*]}")&page=$page" || link="${link}?page=$page"
+    echo "$link"
+}
 
+# Plot-Ausgabe
+if [ "$PLOT" == "1" ]; then
+    # Temp Datei für Plot-Daten
+    PLOT_DATA_FILE="/tmp/plot_data.txt"
     echo "$FILTERED_DATA" > "$PLOT_DATA_FILE"
 
-    # Beispiel: Plot erzeugen (anpassen nach Wunsch)
+    # Plot generieren (PNG-Datei)
     gnuplot <<EOF
 set terminal png size 800,600
-set output '../data/plot.png'
-set title "Todesfälle Freiburg - Filter: ${FILTER:-Alle}, Jahr: ${YEAR:-Alle}"
+set output '/tmp/plot.png'
+set title "Todesfälle Freiburg - Filter: $filtertext, Jahr: $yeartext"
 set xlabel "Datenpunkte (Index)"
 set ylabel "Anzahl"
 set grid
 plot '$PLOT_DATA_FILE' using 0:5 with lines title 'Gefilterte Werte'
 EOF
 
-    # Bild direkt ausgeben
+    # Bild ausgeben (PNG)
     echo "Content-type: image/png"
     echo ""
-    cat ../data/plot.png
-
-    # Link zurück kann hier nicht als HTML ausgegeben werden,
-    # da es reines PNG ist. Der Browser zeigt nur das Bild an.
-    # Nutzer muss per Browser-Back zurück oder URL neu eingeben.
+    cat /tmp/plot.png
 
     exit 0
 fi
 
-# --------- Rest: Ausgabe der HTML-Tabelle (wie gehabt) -----------
+# --- HTML-Ausgabe ---
 
-# HTML-Header, Tabelle, Paginierung, Footer ... (dein bestehender Code)
-# ...
+echo "Content-type: text/html; charset=UTF-8"
+echo ""
 
+echo "<html><head>"
+echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
+echo "<title>Todesfälle - Filter: $filtertext, Jahr: $yeartext</title>"
+echo "</head><body class=\"anzeige\">"
+echo "<header><h1>Todesfälle Freiburg</h1></header>"
 
-# ---------------------------
-# Tabelle anzeigen (wie bisher)
-# ---------------------------
 echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>"
 head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
     print "<tr>";
@@ -81,13 +99,11 @@ head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
     print "</tr>"
 }'
 
-# Anzahl gefilterte Zeilen
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
 TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-# Ausgabe Datenzeilen
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
     row_num=NR
     if(row_num>=start && row_num<=end){
@@ -99,24 +115,8 @@ echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
 
 echo "</table>"
 
-# Paging: Back / Next
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
-
-    LINK_BASE="test1.sh"
-    PARAMS=()
-    [ -n "$FILTER" ] && PARAMS+=("filter=$FILTER")
-    [ -n "$YEAR" ] && PARAMS+=("year=$YEAR")
-    build_link() {
-        local page=$1
-        local link="$LINK_BASE"
-        if [ ${#PARAMS[@]} -gt 0 ]; then
-            link="${link}?$(IFS='&'; echo "${PARAMS[*]}")&page=$page"
-        else
-            link="${link}?page=$page"
-        fi
-        echo "$link"
-    }
 
     if [ "$PAGE" -gt 1 ]; then
         PREV=$((PAGE-1))
@@ -133,7 +133,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-# Footer
 echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
