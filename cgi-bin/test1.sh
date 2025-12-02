@@ -5,7 +5,6 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-# Pfad zur CSV-Datei
 DATEI_PFAD="../data/encoded-todesfälle.csv"
 
 # Paginierung
@@ -15,8 +14,9 @@ PAGE=${PAGE:-1}
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-# Filter auslesen
+# Filter und Jahr auslesen
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
+YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
 
 # HTML Header
 echo "<html><head>"
@@ -43,7 +43,9 @@ head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
 
 # Datenzeilen
 tail -n +2 "$DATEI_PFAD" | sed -n "${START},${END}p" | \
-awk -F';' -v filter="$FILTER" '{
+awk -F';' -v filter="$FILTER" -v year="$YEAR" '{
+    if(year!="" && $1!=year) next  # Jahr filtern
+
     if(filter=="frauen") {
         sum=$5+$6; # Frauen 0-64 + 65+
         print "<tr><td>"$1"</td><td>"$2"</td><td>"$3"</td><td>"$4"</td><td>"sum"</td><td>"$9"</td></tr>"
@@ -70,17 +72,17 @@ for i in $(seq 1 $TOTAL_PAGES); do
     if [ "$i" -eq "$PAGE" ]; then
         echo "<strong>$i</strong> "
     else
-        if [ -n "$FILTER" ]; then
-            echo "<a href='test1.sh?page=$i&filter=$FILTER'>$i</a> "
-        else
-            echo "<a href='test1.sh?page=$i'>$i</a> "
-        fi
+        LINK="test1.sh?page=$i"
+        [ -n "$FILTER" ] && LINK="$LINK&filter=$FILTER"
+        [ -n "$YEAR" ] && LINK="$LINK&year=$YEAR"
+        echo "<a href='$LINK'>$i</a> "
     fi
 done
 echo "</p>"
 echo "</div>"
 
 # Footer
-echo "<section><p>Zurück zur <a href=\"../scripts/testindex.html\">Hauptseite</a>.</p></section>"
+echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
+
