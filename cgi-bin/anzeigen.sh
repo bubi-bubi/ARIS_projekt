@@ -56,6 +56,6 @@ done
 echo "</p>"
 echo "</div>"
 #Footer
-echo "<section><p>Zurück zur <a href=\"../scripts/index.html\">Hauptseite</a>.</p></section>"
+echo "<section><p>Zurück zur <a href=\"..index.html\">Hauptseite</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
