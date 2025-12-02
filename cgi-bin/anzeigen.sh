@@ -3,33 +3,23 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
-
-# Pfad zur CSV-Datei
 DATEI_PFAD="../data/encoded-todesfälle.csv"
 
-# Konfiguration
+#Paginierung
 PER_PAGE=20
-
-# GET-Parameter
 PAGE=$(echo "$QUERY_STRING" | sed -n 's/^page=\([0-9]*\)$/\1/p')
 PAGE=${PAGE:-1}
-
-# Berechnung der Zeilen
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
 # HTML HEADER
-
 echo "<html><head>"
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
 echo "</head><body>"
 echo "<header><h1>Todesfälle</h1></header>"
 
-##############################################
-#           CSV ALS TABELLE
-##############################################
-
+#CSV als TAbelle
 echo "<table border='1' cellpadding='6' cellspacing='0'>"
 
 # Kopfzeile (Header)
@@ -46,12 +36,7 @@ awk -F';' '{
     for(i=1;i<=NF;i++) print "<td>" $i "</td>";
     print "</tr>";
 }'
-
 echo "</table>"
-
-##############################################
-#             PAGINIERUNG
-##############################################
 
 TOTAL_LINES=$(wc -l < "$DATEI_PFAD")
 DATA_LINES=$((TOTAL_LINES-1))
@@ -70,11 +55,7 @@ done
 
 echo "</p>"
 echo "</div>"
-
-##############################################
-#            FUSS / FOOTER
-##############################################
-
+#Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
