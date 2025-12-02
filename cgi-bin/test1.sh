@@ -54,4 +54,48 @@ NR>1 {
 }' "$DATEI_PFAD")
 
 # Anzahl gefilterte Zeilen
-TOTAL_LINES=$(echo "$F_
+TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
+TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
+START=$(( (PAGE-1)*PER_PAGE + 1 ))
+END=$(( START + PER_PAGE - 1 ))
+
+# Ausgabe Datenzeilen
+echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
+    row_num=NR
+    if(row_num>=start && row_num<=end){
+        print "<tr>";
+        for(i=1;i<=NF;i++) print "<td>" $i "</td>";
+        print "</tr>"
+    }
+}'
+
+echo "</table>"
+
+# Pagination mit Back / Next
+if [ "$TOTAL_PAGES" -gt 1 ]; then
+    echo "<div style='margin-top:20px;'>"
+    LINK_BASE="test1.sh"
+    [ -n "$FILTER" ] && LINK_BASE="${LINK_BASE}?filter=$FILTER"
+    [ -n "$YEAR" ] && LINK_BASE="${LINK_BASE}${LINK_BASE#*\?}&year=$YEAR"
+
+    echo "<p>"
+    # Back-Button
+    if [ "$PAGE" -gt 1 ]; then
+        PREV=$((PAGE-1))
+        echo "<a href='${LINK_BASE}&page=$PREV'>Back</a> "
+    fi
+    # Aktuelle Seite
+    echo "<strong>$PAGE</strong>"
+    # Next-Button
+    if [ "$PAGE" -lt "$TOTAL_PAGES" ]; then
+        NEXT=$((PAGE+1))
+        echo " <a href='${LINK_BASE}&page=$NEXT'>Next</a>"
+    fi
+    echo "</p>"
+    echo "</div>"
+fi
+
+# Footer
+echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
+echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
+echo "</body></html>"
