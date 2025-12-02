@@ -79,11 +79,11 @@ set term pngcairo size 900,600
 set output "$TMP_PNG"
 
 set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
-set xlabel "Zeitraum"
+set xlabel "Zeitraum" offset 0,3
 set ylabel "Anzahl Todesfälle"
 set grid
 
-set xtics rotate by 45 right
+set xtics rotate by 90 right
 set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
