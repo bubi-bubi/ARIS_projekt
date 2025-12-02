@@ -47,24 +47,34 @@ if [ "$ACTION" = "plot" ]; then
     # Gnuplot-Daten vorbereiten: x=NR, y=Total
     echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
 
+    # Erstes und letztes Datum holen
+    X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
+    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $1"-"$2"-W"$3}')
+
+    X2=$(wc -l < /tmp/plot_data.txt)
+    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $1"-"$2"-W"$3}')
+
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
 gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
+
 set title "Todesfälle Freiburg (gefiltert)"
-set xlabel "Datenpunkte"
+set xlabel "Zeitraum"
 set ylabel "Total"
 set grid
+
+set xtics rotate by 45 right
+set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
+
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Total"
 EOF
 
-    # PNG ausgeben
     echo "Content-Type: image/png"
     echo ""
     cat "$TMP_PNG"
 
-    # Clean-up
     rm "$TMP_PNG"
     rm /tmp/plot_data.txt
 
