@@ -26,3 +26,29 @@ header {
     margin-left: 0;
     margin-right: 0;
     }
+
+/* CSS für Tabelle */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th {
+    background: #0055a5;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
+    background: #f0f8ff;   /* sehr helles Blau */
+}
