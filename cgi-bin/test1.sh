@@ -2,30 +2,19 @@
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-echo "Content-type: text/html; charset=UTF-8"
-echo ""
+# Parameter aus QUERY_STRING auslesen
+QUERY_STRING="${QUERY_STRING:-$1}"
 
-# Pfad zur CSV-Datei
-DATEI_PFAD="../data/encoded-todesfälle.csv"
-
-# Paginierung
-PER_PAGE=20
-PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
-PAGE=${PAGE:-1}
-
-# Filter auslesen
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
 YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
-ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2)
+PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
+PAGE=${PAGE:-1}
+PLOT=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^plot=' | cut -d'=' -f2)
 
-# HTML Header
-echo "<html><head>"
-echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
-echo "<title>Todesfälle</title>"
-echo "</head><body class=\"anzeige\">"
-echo "<header><h1>Todesfälle Freiburg</h1></header>"
+DATEI_PFAD="../data/encoded-todesfälle.csv"
 
-# Gefilterte Daten
+# Filterte Daten vorbereiten (wie vorher, evtl. anpassen)
+
 FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
     if(year!="" && $1!=year) next
@@ -40,57 +29,41 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-# ---------------------------
-# Wenn Plot angefordert wurde
-# ---------------------------
-if [ "$ACTION" = "plot" ]; then
-    TMP_PLOT="/tmp/plot_data.txt"
-    echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > "$TMP_PLOT"  # Spalte 5 = je nach Filter summe
+# Wenn Plot angefordert, Bild erzeugen und direkt ausgeben:
+if [ "$PLOT" == "1" ]; then
+    # Temporäre Datei für Plot-Daten
+    PLOT_DATA_FILE="/tmp/plot_data.txt"
 
-    # Erstes und letztes Datum für X-Achse
-    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')  # Wochenstart
-    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $4}')  # Wochenstart
-    X1=1
-    X2=$(wc -l < "$TMP_PLOT")
+    echo "$FILTERED_DATA" > "$PLOT_DATA_FILE"
 
-    # Titel vorbereiten
-    if [ -z "$FILTER" ]; then
-        FILTER_TEXT="Alle"
-    else
-        FILTER_TEXT="$FILTER"
-    fi
-
-    if [ -z "$YEAR" ]; then
-        YEAR_TEXT="alle Jahre"
-    else
-        YEAR_TEXT="$YEAR"
-    fi
-
-    # Plot-Datei speichern
-    PLOT_FILE="../data/plot.png"
-
+    # Beispiel: Plot erzeugen (anpassen nach Wunsch)
     gnuplot <<EOF
-set term pngcairo size 900,600
-set output "$PLOT_FILE"
-set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
-set xlabel "Zeitraum"
-set ylabel "Anzahl Todesfälle"
+set terminal png size 800,600
+set output '../data/plot.png'
+set title "Todesfälle Freiburg - Filter: ${FILTER:-Alle}, Jahr: ${YEAR:-Alle}"
+set xlabel "Datenpunkte (Index)"
+set ylabel "Anzahl"
 set grid
-set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
-plot "$TMP_PLOT" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
+plot '$PLOT_DATA_FILE' using 0:5 with lines title 'Gefilterte Werte'
 EOF
 
-    # Plot auf der HTML-Seite anzeigen
-    echo "<section>"
-    echo "<img src='../data/plot.png' alt='Plot Todesfälle' style='max-width:90%;'>"
-    echo "</section>"
+    # Bild direkt ausgeben
+    echo "Content-type: image/png"
+    echo ""
+    cat ../data/plot.png
 
-    echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
-    echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
-    echo "</body></html>"
+    # Link zurück kann hier nicht als HTML ausgegeben werden,
+    # da es reines PNG ist. Der Browser zeigt nur das Bild an.
+    # Nutzer muss per Browser-Back zurück oder URL neu eingeben.
 
     exit 0
 fi
+
+# --------- Rest: Ausgabe der HTML-Tabelle (wie gehabt) -----------
+
+# HTML-Header, Tabelle, Paginierung, Footer ... (dein bestehender Code)
+# ...
+
 
 # ---------------------------
 # Tabelle anzeigen (wie bisher)

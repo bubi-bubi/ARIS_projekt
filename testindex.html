@@ -18,28 +18,31 @@
 
     <section>
         <h2>Daten filtern</h2>
-        <form action="cgi-bin/test1.sh" method="get">
-            <label for="filter">Filter auswählen:</label>
-            <select name="filter" id="filter">
-                <option value="">Alle Daten</option>
-                <option value="frauen">Frauen</option>
-                <option value="maenner">Männer</option>
-            </select>
+       <form action="cgi-bin/test1.sh" method="get" id="filterForm">
+    <label for="filter">Filter auswählen:</label>
+    <select name="filter" id="filter">
+        <option value="">Alle Daten</option>
+        <option value="frauen">Frauen</option>
+        <option value="maenner">Männer</option>
+    </select>
 
-            <label for="year">Jahr auswählen:</label>
-            <select name="year" id="year">
-            <option value="">Alle Jahre</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-         </select>
+    <label for="year">Jahr auswählen:</label>
+    <select name="year" id="year">
+        <option value="">Alle Jahre</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+    </select>
 
-            <input type="submit" name="action" value="anzeigen">
-            <input type="submit" name="action" value="plot">
-        </form>
+    <!-- Normaler Submit-Button sendet ohne plot= -->
+    <input type="submit" value="Anzeigen">
+
+    <!-- Plot-Button setzt zusätzlich plot=1 -->
+    <button type="submit" onclick="document.getElementById('filterForm').action='cgi-bin/test1.sh?plot=1';">Plot</button>
+</form>
     </section>
 
     <footer>
