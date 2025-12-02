@@ -54,26 +54,39 @@ if [ "$ACTION" = "plot" ]; then
 
     # Erstes und letztes Datum holen
     X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
-    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $1"-"$2"-W"$3}')
+    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')  # Wochenstart
 
     X2=$(wc -l < /tmp/plot_data.txt)
-    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $1"-"$2"-W"$3}')
+    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $4}') 
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
+
+    # Filtertext für Titel vorbereiten
+if [ -z "$FILTER" ]; then
+    FILTER_TEXT="Alle"
+else
+    FILTER_TEXT="$FILTER"
+fi
+
+if [ -z "$YEAR" ]; then
+    YEAR_TEXT="alle Jahre"
+else
+    YEAR_TEXT="$YEAR"
+fi
 
 gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
 
-set title "Todesfälle Freiburg (gefiltert)"
+set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
 set xlabel "Zeitraum"
 set ylabel "Anzahl Todesfälle"
 set grid
 
-set xtics rotate by 45 right
+set xtics rotate by 90 right
 set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
-plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
+plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#FF0066" title "Anzahl Todesfälle"
 EOF
 
     echo "Content-Type: image/png"
