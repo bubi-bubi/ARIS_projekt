@@ -16,7 +16,7 @@ END=$(( START + PER_PAGE - 1 ))
 echo "<html><head>"
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
-echo "</head><body> class=\"anzeige\">"
+echo "</head><body class=\"anzeige\">"
 echo "<header><h1>Todesfälle</h1></header>"
 
 #CSV als TAbelle
