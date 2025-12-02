@@ -20,4 +20,8 @@ FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
 
 # HTML Header
 echo "<html><head>"
-echo "<l
+echo "<l"
+#Footer
+echo "<section><p>Zurück zur <a href=\"../testindex.html\">Hauptseite</a>.</p></section>"
+echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
+echo "</body></html>"
