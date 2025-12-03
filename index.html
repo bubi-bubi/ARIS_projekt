@@ -33,7 +33,7 @@
         <h2>Todesfälle erfassen</h2>
         
          <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
-        <formE action="/cgi-bin/add_todesfaelle.sh" method="post">
+        <form action="/cgi-bin/add_todesfaelle.sh" method="post">
 
             <div class="ef">
                 <label>Jahr:</label>
@@ -75,10 +75,12 @@
                 <label>Männer 65+:</label>
                 <input type="number" name="m65" value="0" min="-999">
             </div>
+            
+            <div class="ef button-row">
+                <button type="submit">Eintragen</button>
+            </div>
         
-            <button type="submit">Eintragen</button>
-        
-        </formE>
+        </form>
 
     </body>
     <footer>
