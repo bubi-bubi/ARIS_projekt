@@ -29,6 +29,23 @@
         <section>
             <p><a href="cgi-bin/anzeigen.sh">Todesfälle anzeigen.</a></p>
         </section>
+
+        <h2>Todesfälle erfassen</h2>
+
+        <form action="/cgi-bin/add_todesfaelle.sh" method="post">
+            Jahr: <input type="number" name="jahr" required><br><br>
+            Monat: <input type="number" name="monat" required><br><br>
+            Woche: <input type="number" name="woche" required><br><br>
+            Wochenstart: <input type="date" name="wochenstart" required><br><br>
+        
+            Frauen 0–64: <input type="number" name="f0_64" value="0" min="-999"><br><br>
+            Frauen 65+: <input type="number" name="f65" value="0" min="-999"><br><br>
+            Männer 0–64: <input type="number" name="m0_64" value="0" min="-999"><br><br>
+            Männer 65+: <input type="number" name="m65" value="0" min="-999"><br><br>
+        
+            <button type="submit">Eintragen</button>
+        </form>
+
     </body>
     <footer>
         <p class="footer">

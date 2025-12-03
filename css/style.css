@@ -19,6 +19,7 @@ header {
         display: flex;
         justify-content: center;   /* horizontal Zentrierung */
         align-items: center;       /* vertikal Zentrierung*/
+        text-align: center;
         color: white;
         height: 100px;             /* wichtig für vertikale Zentrierung */
         margin: 0;
