@@ -12,20 +12,17 @@ header {
 }
 
 .footer {
-    background-color: #382C27;
-    font-family: Avenir; 
-    font-size: 9pt; 
-    font-weight: lighter;
-    display: block;
-    text-align: left;
-    padding: 30px;
-    padding-left: 3%;
-    color: white;
-    margin-top: 100%;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
-    }
+        background-color: #382C27;
+        font-family: Avenir; 
+        font-size: 9pt; 
+        font-weight: lighter;
+        display: flex;
+        justify-content: center;   /* horizontal Zentrierung */
+        align-items: center;       /* vertikal Zentrierung*/
+        color: white;
+        height: 100px;             /* wichtig für vertikale Zentrierung */
+        margin: 0;
+ }
 
 /* CSS für Tabelle */
 .anzeige-table {
