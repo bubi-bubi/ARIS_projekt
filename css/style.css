@@ -39,12 +39,12 @@ header {
     }
 
 .input {
-        margin-left: 20px;          /* weiter eingerückt als Label */
+        padding-left: 27px;          /* weiter eingerückt als Label */
         width: 160px;               /* Eingabefelder sollen gleich breit sein */
     }
 
 .button {
-        margin-left: 200px;         /* Feld ausrichtung */
+        padding-left: 10px;         /* Feld ausrichtung */
         padding: 6px 15px;
     }
 
