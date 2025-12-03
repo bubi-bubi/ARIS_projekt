@@ -18,7 +18,6 @@ header {
         font-weight: lighter;
         display: flex;
         justify-content: center;   /* horizontal Zentrierung */
-        align-items: center;       /* vertikal Zentrierung*/
         text-align: center;
         color: white;
         height: 100px;             /* wichtig für vertikale Zentrierung */
@@ -39,7 +38,7 @@ header {
     }
 
 .input {
-        padding-left: 27px;          /* weiter eingerückt als Label */
+        margin-left: 27px;          /* weiter eingerückt als Label */
         width: 160px;               /* Eingabefelder sollen gleich breit sein */
     }
 
