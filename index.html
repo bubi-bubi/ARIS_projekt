@@ -31,20 +31,54 @@
         </section>
 
         <h2>Todesfälle erfassen</h2>
-
-        <form action="/cgi-bin/add_todesfaelle.sh" method="post">
-            Jahr: <input type="number" name="jahr" required><br><br>
-            Monat: <input type="number" name="monat" required><br><br>
-            Woche: <input type="number" name="woche" required><br><br>
-            Wochenstart: <input type="date" name="wochenstart" required><br><br>
         
-            Frauen 0–64: <input type="number" name="f0_64" value="0" min="-999"><br><br>
-            Frauen 65+: <input type="number" name="f65" value="0" min="-999"><br><br>
-            Männer 0–64: <input type="number" name="m0_64" value="0" min="-999"><br><br>
-            Männer 65+: <input type="number" name="m65" value="0" min="-999"><br><br>
+         <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
+        <formE action="/cgi-bin/add_todesfaelle.sh" method="post">
+
+            <div class="ef">
+                <label>Jahr:</label>
+                <input type="number" name="jahr" required>
+            </div>
+        
+            <div class="ef">
+                <label>Monat:</label>
+                <input type="number" name="monat" required>
+            </div>
+        
+            <div class="ef">
+                <label>Woche:</label>
+                <input type="number" name="woche" required>
+            </div>
+        
+            <div class="ef">
+                <label>Wochenstart:</label>
+                <input type="date" name="wochenstart" required>
+            </div>
+
+                <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
+            <div class="ef">
+                <label>Frauen 0–64:</label>
+                <input type="number" name="f0_64" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Frauen 65+:</label>
+                <input type="number" name="f65" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Männer 0–64:</label>
+                <input type="number" name="m0_64" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Männer 65+:</label>
+                <input type="number" name="m65" value="0" min="-999">
+            </div>
         
             <button type="submit">Eintragen</button>
-        </form>
+        
+        </formE>
 
     </body>
     <footer>

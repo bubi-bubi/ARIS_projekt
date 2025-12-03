@@ -20,11 +20,12 @@ f65=$(getVal "f65")
 m0_64=$(getVal "m0_64")
 m65=$(getVal "m65")
 
-dataset="/var/www/html/daten.csv"
+dataset="/var/www/html/data/encoded-todesfälle.csv"
 tmpfile=$(mktemp)
 
-# Prüfen ob Datensatz existiert
-existing=$(grep "^$jahr;$monat;$woche;" "$dataset")
+# Prüfen ob Datensatz existiert & zwar so dass es mit x oder 0x geht und keine neue Zeile gemacht wird
+existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
+    'NR>1 && $1==j && $2==m && $3==w {print $0}' "$dataset")
 
 if [ -z "$existing" ]; then
     # Neuer Eintrag
@@ -44,6 +45,11 @@ else
 
     # Datei aktualisieren
     grep -v "^$jahr;$monat;$woche;" "$dataset" > "$tmpfile"
+    awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" '{
+        if (NR==1) {print; next}   # Kopfzeile immer behalten
+        if ($1==j && $2==m && $3==w) next
+        print
+    }' "$dataset" > "$tmpfile"
     echo "$jahr;$monat;$woche;$wochenstart;$new_f0;$new_f65;$new_m0;$new_m65;$new_total" >> "$tmpfile"
     mv "$tmpfile" "$dataset"
 
@@ -51,3 +57,11 @@ else
 fi
 
 echo "<a href=\"/eingabe.html\">Zurück</a>"
+
+
+
+awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" '{
+    if (NR==1) {print; next}   # Kopfzeile immer behalten
+    if ($1==j && $2==m && $3==w) next
+    print
+}' "$dataset" > "$tmpfile"

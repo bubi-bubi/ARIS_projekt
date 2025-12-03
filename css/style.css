@@ -25,6 +25,30 @@ header {
         margin: 0;
  }
 
+ /* CSS für Eingabe */
+
+.ef {
+        display: flex;
+        margin-bottom: 12px;
+        margin-left: 40px;          /* gesamte Einrückung */
+    }
+
+.label {
+        width: 150px;               /* alle Beschriftungen sollen gleich breit sein */
+        padding-left: 10px;         /* Einrückung label */
+        font-weight: bold;
+    }
+
+.input {
+        margin-left: 20px;          /* weiter eingerückt als Label */
+        width: 160px;               /* Eingabefelder sollen gleich breit sein */
+    }
+
+.button {
+        margin-left: 200px;         /* Feld ausrichtung */
+        padding: 6px 15px;
+    }
+
 /* CSS für Tabelle */
 .anzeige-table {
     width: 100%;
