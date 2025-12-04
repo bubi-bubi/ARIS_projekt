@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title> formular </title>
+        <meta charset="utf8">
+        <meta name="description" content="semesterprojekt für aris">
+        <meta name="keywords" content="HTML, CSS, data, formular, forms, project">
+        <meta name="author" content="nova jost, djamilja heiniger, sonja mathis">
+        <meta name="date" content="23.10.25">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        
+        <!-- meta code copied from ihazmemes.html -->
+    </head>
+    <header> 
+        <!--https://cdn.pixabay.com/photo/2013/06/30/11/19/switzerland-142372_1280.jpg-->
+        <img id="picture" src="images/himmel.jpg" width="100%" height="auto">
+    </header>
+
+    <body>
+        <div id="box1">
+                <h2>Todesfälle eintrage</h2>
+                <a class="visited"  href="index.html">Hauptseite</a>
+                <a class="menuelist" href="indexTe.html">Todesfälle eintragen</a>
+        </div>
+            
+
+         <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
+         <form action="/cgi-bin/add_todesfaelle.sh" method="post">
+
+            <div class="ef">
+                <label>Jahr:</label>
+                <input class="input" type="number" name="jahr" required>
+            </div>
+        
+            <div class="ef">
+                <label>Monat:</label>
+                <input class="input" type="number" name="monat" required>
+            </div>
+        
+            <div class="ef">
+                <label>Woche:</label>
+                <input class="input" type="number" name="woche" required>
+            </div>
+        
+            <div class="ef">
+                <label>Wochenstart:</label>
+                <input class="input" type="date" name="wochenstart" required>
+            </div>
+
+                <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
+            <div class="ef">
+                <label>Frauen 0–64:</label>
+                <input class="input" type="number" name="f0_64" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Frauen 65+:</label>
+                <input class="input" type="number" name="f65" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Männer 0–64:</label>
+                <input class="input" type="number" name="m0_64" value="0" min="-999">
+            </div>
+        
+            <div class="ef">
+                <label>Männer 65+:</label>
+                <input class="input" type="number" name="m65" value="0" min="-999">
+            </div>
+            
+            <div class="ef button-row">
+                <button type="submit">Eintragen</button>
+            </div>
+        
+        </form>
+
+    </body>
+    <footer>
+        <p class="footer">
+            Impressum<br>Team Eichörnli<br>Djamilja Shaila Heiniger, Nova Jost, Sonja Monika Mathis</p>    
+    </footer> 
+</html>

@@ -11,6 +11,34 @@ header {
     overflow-y: hidden;   
 }
 
+div#box1 {
+    margin-top: 3%;
+    margin-left: 3%;
+    margin-right:3%;
+}
+
+.menuelist {
+    color: #3B240B;
+    font-family: Avenir; 
+    font-style: italic;
+    font-size: 19px; 
+    text-decoration: none;
+    display: block;
+    padding: 3px;
+}
+
+.visited {
+    font-weight:bold;
+    color: #3B240B;
+    font-family: Avenir; 
+    font-style: italic;
+    font-size: 19px; 
+    text-decoration: none;
+    display: block;
+    padding: 3px;
+}
+
+
 .footer {
         background-color: #382C27;
         font-family: Avenir; 
