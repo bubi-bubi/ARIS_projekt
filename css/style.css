@@ -18,7 +18,7 @@ div#box1 {
 }
 
 .menuelist {
-    color: #3B240B;
+    color: #382C27;
     font-family: Avenir; 
     font-style: italic;
     font-size: 19px; 
@@ -29,7 +29,7 @@ div#box1 {
 
 .visited {
     font-weight:bold;
-    color: #3B240B;
+    color: #382C27;
     font-family: Avenir; 
     font-style: italic;
     font-size: 19px; 
@@ -70,7 +70,11 @@ div#box1 {
 
 .label {
     width: 40%;           /* Label nimmt 40% des Platzes ein */
-    font-weight: bold;
+    font-weight:bold;
+    color: #382C27;
+    font-family: Avenir; 
+    font-style: italic;
+    font-size: 19px; 
 }
 
 .input {
