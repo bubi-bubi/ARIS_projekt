@@ -51,16 +51,13 @@ div#box1 {
 /* CSS für Eingabe */
 /* Allgemeiner Wrapper mit gutem Abstand */
 
-.wrapper {
-    width: 100%;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    background: #f9f9f9; /* optional schöner Hintergrund */
+div#wrapper {
+    margin-top: 7%;
+    margin-left: 21%;
 }
 
 /* Formular */
-.form {
+form {
     width: 100%;
     max-width: 600px;
     background: white;
@@ -70,7 +67,7 @@ div#box1 {
 }
 
 /* Titel */
-.h2 {
+h2 {
     text-align: center;
     margin-bottom: 25px;
     font-size: 1.5rem;
@@ -86,7 +83,7 @@ div#box1 {
 }
 
 /* Label */
-.label {
+label {
     flex: 0 0 40%;   /* nimmt 40% der Breite */
     font-weight: 600;
     color: #382C27;
