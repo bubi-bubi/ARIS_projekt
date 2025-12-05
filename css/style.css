@@ -56,8 +56,9 @@ div#box1 {
  /* CSS für Eingabe */
 .ef {
         display: flex;
+        margin-top: 7%;
         margin-bottom: 12px;
-        margin-left: 40px;          /* gesamte Einrückung */
+        margin-left: 21%;          /* gesamte Einrückung */
     }
 
 .label {
