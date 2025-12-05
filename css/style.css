@@ -55,7 +55,7 @@ div#box1 {
 
  /* CSS für Eingabe */
 .ef {
-        display: flex;
+        /* display: flex; */
         margin-top: 7%;
         margin-bottom: 12px;
         margin-left: 21%;          /* gesamte Einrückung */
@@ -68,12 +68,13 @@ div#box1 {
     }
 
 .input {
-        margin-left: 27px;          /* weiter eingerückt als Label */
+        padding-left: 10%;
+                 /* weiter eingerückt als Label margin-left: 27px; */
         width: 160px;               /* Eingabefelder sollen gleich breit sein */
     }
 
-.button {
-        padding-left: 10px;         /* Feld ausrichtung */
+.ef-button {
+        margin-left: 21%;         /* Feld ausrichtung  padding-left: 10px;*/
         padding: 6px 15px;
     }
 
