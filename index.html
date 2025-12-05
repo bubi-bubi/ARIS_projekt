@@ -21,9 +21,8 @@
 
         <div id="box1">
             <!--h1 kann gelöscht werden, ist eine Kopie-->
-            <h1> "schön, dass du da bist!"</h1>
             <a class="visited"  href="index.html">Hauptseite</a>
-            <a class="menuelist" href="indexTe.html">Todesfälle eintragen</a>
+            <a class="menuelist" href="toderfassen.html">Todesfälle eintragen</a>
         </div>
 
         <h1> Todesfälle Freiburg </h1>
@@ -38,59 +37,6 @@
             <p><a href="cgi-bin/anzeigen.sh">Todesfälle anzeigen.</a></p>
         </section>
 
-        <h2>Todesfälle erfassen</h2>
-        
-        <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
-        <div class="wrapper">
-            <form action="/cgi-bin/add_todesfaelle.sh" method="post">
-
-                <div class="ef">
-                    <label class="label">Jahr:</label>
-                    <input class="input" type="number" name="jahr" required>
-                </div>
-                
-                <div class="ef">
-                    <label class="label">Monat:</label>
-                    <input class="input" type="number" name="monat" required>
-                </div>
-                
-                <div class="ef">
-                    <label class="label">Woche:</label>
-                    <input class="input" type="number" name="woche" required>
-                </div>
-                
-                <div class="ef">
-                    <label class="label">Wochenstart:</label>
-                    <input class="input" type="date" name="wochenstart" required>
-                </div>
-                
-                <div class="ef">
-                    <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
-                    <label class="label">Frauen 0–64:</label>
-                    <input class="input" type="number" name="f0_64" value="0" min="-999">
-                </div>
-                
-                <div class="ef">    
-                    <label class="label">Frauen 65+:</label>
-                    <input class="input" type="number" name="f65" value="0" min="65">
-                </div>
-                
-                <div class="ef">
-                    <label class="label">Männer 0–64:</label>
-                    <input class="input" type="number" name="m0_64" value="0" min="-999">
-                </div>
-                
-                <div class="ef">
-                    <label class="label">Männer 65+:</label>
-                    <input class="input" type="number" name="m65" value="0" min="-999">
-                </div>
-                
-                <div class="ef-button">
-                    <button type="submit">Eintragen</button>
-                </div>
-            </form>
-        </div>
-        
         <footer>
             <p class="footer">
                 Impressum<br>Team Eichörnli<br>Djamilja Shaila Heiniger, Nova Jost, Sonja Monika Mathis</p>    

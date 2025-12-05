@@ -8,9 +8,7 @@ header {
 }
 
 div#box1 {
-    margin-top: 3%;
-    margin-left: 3%;
-    margin-right:3%;
+    margin: clamp(10px, 3vw, 40px) auto 0;
 }
 
 .menuelist {
@@ -45,23 +43,71 @@ div#box1 {
     text-align: center;
     color: white;
     height: 100px;             /* wichtig für vertikale Zentrierung */
-    margin: 0;
+    margin-top: clamp(90px, 5vw, 60px);
 }
 
 /* CSS für Eingabe */
 /* Allgemeiner Wrapper mit gutem Abstand */
 
 div#wrapper {
-    margin-top: 7%;
-    margin-left: 21%;
+    margin: clamp(90px, 5vw, 90px) auto 0;
+    width: fit-content;  /* passt sich so gross an wie der Inhalt ist */
+    max-width: 90vw; /* Verhindert, dass es auf kleinen Screens überläuft */
 }
 
 h2 {
+    margin-bottom: 40px;
+    font-family: Avenir; 
+    font-style: italic;
+    font-size: 17px; 
+    font-weight: 500; /* 400 ist normal */
+    color: #382C27;   
+}
+
+.ef {
+    display: flex;
+    align-items: center;
+    gap: 15px;            /* gleicher Abstand zwischen Label und Input */
+    margin-bottom: 14px;  /* Abstand zwischen den Reihen */
+}
+
+label {
+    width: 150px;
     font-family: Avenir; 
     font-style: italic;
     font-size: 17px; 
     font-weight:normal; 
-    color: #382C27;   
+    color: #382C27; 
+}
+
+input {
+    width: 120px;
+    padding: 4px 8px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-family: Avenir;
+    font-size: 15px;
+    color: #382C27;
+}
+
+.submit-btn {
+    display: block;         /* macht zentrieren möglich */
+    margin: 90px auto 30px;    /* auto = zentriert */
+    padding: 12px 32px;     /* macht ihn grösser */
+    font-size: 17px;
+    font-family: Avenir;
+    font-style: italic;
+    color: white;         /* Schriftfarbe */
+    background-color: #382C27;
+    border: 2px solid #382C27;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    /* margin-top: 90px; */
+}
+
+.submit-btn:hover {
+    transform: scale(1.05);
 }
 
 /* CSS für Tabelle */
