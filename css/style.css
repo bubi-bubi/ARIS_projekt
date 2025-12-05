@@ -54,29 +54,39 @@ div#box1 {
  }
 
  /* CSS für Eingabe */
+ form {
+    width: 90%;           /* passt sich der Seite an */
+    max-width: 600px;     /* wird nicht unendlich breit */
+    margin: 0 auto;       /* zentriert */
+}
+
 .ef {
-        display: flex;
-        margin-top: 7%;
-        margin-bottom: 12px;
-        margin-left: 50%;          /* gesamte Einrückung */
-    }
+    display: flex;
+    flex-direction: row;  
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
 
 .label {
-        width: 150px;               /* alle Beschriftungen sollen gleich breit sein */
-        padding-left: 10px;         /* Einrückung label */
-        font-weight: bold;
-    }
+    width: 40%;           /* Label nimmt 40% des Platzes ein */
+    font-weight: bold;
+}
 
 .input {
-        padding-left: 10%;
-                 /* weiter eingerückt als Label margin-left: 27px; */
-        width: 160px;               /* Eingabefelder sollen gleich breit sein */
-    }
+    width: 55%;           /* Input passt sich an */
+    padding: 6px;
+}
 
 .ef-button {
-        padding-left: 21%;       /* Feld ausrichtung */
-        padding: 6px 15px;
-    }
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+}
+
 
 /* CSS für Tabelle */
 .anzeige-table {
