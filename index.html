@@ -39,39 +39,56 @@
 
         <h2>Todesfälle erfassen</h2>
         
-         <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
-        <form action="/cgi-bin/add_todesfaelle.sh" method="post">
+        <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
+        <div class="wrapper">
+            <form action="/cgi-bin/add_todesfaelle.sh" method="post">
 
-            <div class="ef">
-                <label>Jahr:</label>
-                <input class="input" type="number" name="jahr" required>
-            
-                <label>Monat:</label>
-                <input class="input" type="number" name="monat" required>
-            
-                <label>Woche:</label>
-                <input class="input" type="number" name="woche" required>
-            
-                <label>Wochenstart:</label>
-                <input class="input" type="date" name="wochenstart" required>
-            
-                <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
-                <label>Frauen 0–64:</label>
-                <input class="input" type="number" name="f0_64" value="0" min="-999">
-            
-                <label>Frauen 65+:</label>
-                <input class="input" type="number" name="f65" value="0" min="-999">
-            
-                <label>Männer 0–64:</label>
-                <input class="input" type="number" name="m0_64" value="0" min="-999">
-            
-                <label>Männer 65+:</label>
-                <input class="input" type="number" name="m65" value="0" min="-999">
-            </div>
-            
-            <div class="ef-button">
-                <button type="submit">Eintragen</button>
-            </div>
+                <div class="ef">
+                    <label class="label">Jahr:</label>
+                    <input class="input" type="number" name="jahr" required>
+                </div>
+                
+                <div class="ef">
+                    <label class="label">Monat:</label>
+                    <input class="input" type="number" name="monat" required>
+                </div>
+                
+                <div class="ef">
+                    <label class="label">Woche:</label>
+                    <input class="input" type="number" name="woche" required>
+                </div>
+                
+                <div class="ef">
+                    <label class="label">Wochenstart:</label>
+                    <input class="input" type="date" name="wochenstart" required>
+                </div>
+                
+                <div class="ef">
+                    <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
+                    <label class="label">Frauen 0–64:</label>
+                    <input class="input" type="number" name="f0_64" value="0" min="-999">
+                </div>
+                
+                <div class="ef">    
+                    <label class="label">Frauen 65+:</label>
+                    <input class="input" type="number" name="f65" value="0" min="-999">
+                </div>
+                
+                <div class="ef">
+                    <label class="label">Männer 0–64:</label>
+                    <input class="input" type="number" name="m0_64" value="0" min="-999">
+                </div>
+                
+                <div class="ef">
+                    <label class="label">Männer 65+:</label>
+                    <input class="input" type="number" name="m65" value="0" min="-999">
+                </div>
+                
+                <div class="ef-button">
+                    <button type="submit">Eintragen</button>
+                </div>
+            </form>
+        </div>
         
         </form>
 

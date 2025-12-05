@@ -54,43 +54,76 @@ div#box1 {
  }
 
  /* CSS für Eingabe */
- form {
-    width: 90%;           /* passt sich der Seite an */
-    max-width: 600px;     /* wird nicht unendlich breit */
-    margin: 0 auto;       /* zentriert */
+ /* Allgemeiner Wrapper mit gutem Abstand */
+.wrapper {
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    background: #f9f9f9; /* optional schöner Hintergrund */
 }
 
+/* Formular */
+.form {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+/* Titel */
+.form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+/* Zeile (Label + Input) */
 .ef {
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
-.label {
-    width: 40%;           /* Label nimmt 40% des Platzes ein */
-    font-weight:bold;
+/* Label */
+.ef label {
+    flex: 0 0 40%;   /* nimmt 40% der Breite */
+    font-weight: 600;
     color: #382C27;
     font-family: Avenir; 
     font-style: italic;
     font-size: 19px; 
 }
 
-.input {
-    width: 55%;           /* Input passt sich an */
-    padding: 6px;
+/* Input */
+.ef input {
+    flex: 1;         /* füllt den Rest */
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
 }
 
-.ef-button {
-    text-align: center;
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
     margin-top: 20px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-button {
-    padding: 10px 20px;
+.submit-btn:hover {
+    background: #005dc1;
 }
-
 
 /* CSS für Tabelle */
 .anzeige-table {
