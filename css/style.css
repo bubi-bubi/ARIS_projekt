@@ -70,7 +70,7 @@ div#box1 {
 }
 
 /* Titel */
-.form h2 {
+.h2 {
     text-align: center;
     margin-bottom: 25px;
     font-size: 1.5rem;
@@ -86,7 +86,7 @@ div#box1 {
 }
 
 /* Label */
-.ef label {
+.label {
     flex: 0 0 40%;   /* nimmt 40% der Breite */
     font-weight: 600;
     color: #382C27;
@@ -96,7 +96,7 @@ div#box1 {
 }
 
 /* Input */
-.ef input {
+.input {
     flex: 1;         /* füllt den Rest */
     padding: 8px;
     border: 1px solid #bbb;

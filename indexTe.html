@@ -20,7 +20,6 @@
         </header>
 
         <div id="box1">
-                <h2>Todesfälle eintrage</h2>
                 <a class="menuelist"  href="index.html">Hauptseite</a>
                 <a class="visited" href="indexTe.html">Todesfälle eintragen</a>
         </div>
@@ -33,43 +32,44 @@
                 <h2>Todesfälle eintragen</h2>
         
                 <div class="ef">
-                    <label for="jahr">Jahr</label>
-                    <input id="jahr" type="number" name="jahr" required>
+                    <label class="label">Jahr:</label>
+                    <input class="input" type="number" name="jahr" required>
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="monat">Monat</label>
-                    <input id="monat" type="number" name="monat" required>
+                    <label class="label">Monat:</label>
+                    <input class="input" type="number" name="monat" required>
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="woche">Woche</label>
-                    <input id="woche" type="number" name="woche" required>
+                    <label class="label">Woche:</label>
+                    <input class="input" type="number" name="woche" required>
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="wochenstart">Wochenstart</label>
-                    <input id="wochenstart" type="date" name="wochenstart" required>
+                    <label class="label">Wochenstart:</label>
+                    <input class="input" type="date" name="wochenstart" required>
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="f0_64">Frauen 0–64</label>
-                    <input id="f0_64" type="number" name="f0_64" value="0" min="-999">
+                    <!-- -999 ist notwenig um Tote wieder zu enfernen, falsch sie nicht Korrekt eingetragen wurden-->
+                    <label class="label">Frauen 0–64:</label>
+                    <input class="input" type="number" name="f0_64" value="0" min="-999">
                 </div>
-        
-                <div class="ef">
-                    <label for="f65">Frauen 65+</label>
-                    <input id="f65" type="number" name="f65" value="0" min="-999">
+                
+                <div class="ef">    
+                    <label class="label">Frauen 65+:</label>
+                    <input class="input" type="number" name="f65" value="0" min="65">
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="m0_64">Männer 0–64</label>
-                    <input id="m0_64" type="number" name="m0_64" value="0" min="-999">
+                    <label class="label">Männer 0–64:</label>
+                    <input class="input" type="number" name="m0_64" value="0" min="-999">
                 </div>
-        
+                
                 <div class="ef">
-                    <label for="m65">Männer 65+</label>
-                    <input id="m65" type="number" name="m65" value="0" min="-999">
+                    <label class="label">Männer 65+:</label>
+                    <input class="input" type="number" name="m65" value="0" min="-999">
                 </div>
         
                 <button class="submit-btn" type="submit">Eintragen</button>
