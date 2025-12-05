@@ -55,10 +55,10 @@ div#box1 {
 
  /* CSS für Eingabe */
 .ef {
-        /* display: flex; */
+        display: flex;
         margin-top: 7%;
         margin-bottom: 12px;
-        margin-left: 21%;          /* gesamte Einrückung */
+        margin-left: 50%;          /* gesamte Einrückung */
     }
 
 .label {
@@ -74,7 +74,7 @@ div#box1 {
     }
 
 .ef-button {
-        margin-left: 21%;         /* Feld ausrichtung  padding-left: 10px;*/
+        padding-left: 21%;       /* Feld ausrichtung */
         padding: 6px 15px;
     }
 
