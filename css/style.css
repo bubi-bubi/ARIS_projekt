@@ -1,7 +1,3 @@
-content {
-    max-width: 1000px;
-    margin: auto;
-}
 
 header {
     padding:0;
@@ -37,7 +33,6 @@ div#box1 {
     display: block;
     padding: 3px;
 }
-
 
 .footer {
         background-color: #382C27;
