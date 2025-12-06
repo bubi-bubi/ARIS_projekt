@@ -181,6 +181,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
 fi
 
 # FOOTER-------------------------------------------------------------------------------------------------
-echo "<section><p>Zurück zur <a href=\"../testindex.html\">Auswahl</a>.</p></section>"
+echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
