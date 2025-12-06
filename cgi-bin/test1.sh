@@ -37,7 +37,7 @@ NR>1 {
 
 
 # PLOT KLICKEN--------------------------------------------------------------------------------------------
-if [ "$ACTION" = "Visualisierung" ]; then
+if [ "$ACTION" = "visualisierung" ]; then
 
     # Gnuplot-Daten vorbereiten
     # x = NR, y = Total / Summe Frauen / Summe Männer
