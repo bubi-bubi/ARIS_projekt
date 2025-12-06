@@ -12,17 +12,19 @@ getVal() {
     echo "$POSTDATA" | sed -n "s/.*$1=\([^&]*\).*/\1/p" | sed 's/%20/ /g'
 }
 
-jahr=$(getVal "jahr")
-monat=$(getVal "monat")
-woche=$(getVal "woche")
-wochenstart=$(getVal "wochenstart")
-f0_64=$(getVal "f0_64")
-f65=$(getVal "f65")
-m0_64=$(getVal "m0_64")
-m65=$(getVal "m65")
+jahr=$(getVal "Jahr")
+monat=$(getVal "Monat")
+woche=$(getVal "Woche")
+wochenstart=$(getVal "Todesdatum")
+f0_64=$(getVal "Frauen bis 64")
+f65=$(getVal "Frauen ab 65")
+m0_64=$(getVal "Männer bis 64")
+m65=$(getVal "Männer ab 65")
 
 dataset="/var/www/html/data/copy_todesfälle.csv"
 tmpfile=$(mktemp)
+
+#DAS FUNKTIONIERT NOCH NICHT!! ES WERDEN KEINE NEUEN DATEN HINZUGEFÜGT!
 
 # Prüfen ob Datensatz existiert & zwar so dass es mit x oder 0x geht und keine neue Zeile gemacht wird
 jahr=$(date -d "$wochenstart" +%Y)
