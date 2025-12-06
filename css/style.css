@@ -13,7 +13,7 @@ div#box1 {
 
 .menuelist {
     color: #382C27;
-    font-family: Avenir; 
+    font-family: 'Nunito', sans-serif;
     font-style: italic;
     font-size: 19px; 
     text-decoration: none;
@@ -24,7 +24,7 @@ div#box1 {
 .visited {
     font-weight:bold;
     color: #382C27;
-    font-family: Avenir; 
+    font-family: 'Nunito', sans-serif; 
     font-style: italic;
     font-size: 19px; 
     text-decoration: none;
@@ -34,7 +34,7 @@ div#box1 {
 
 .footer {
     background-color: #382C27;
-    font-family: Avenir; 
+    font-family: 'Nunito', sans-serif;
     font-size: 9pt; 
     font-weight: lighter;
     display: flex;
@@ -57,7 +57,7 @@ div#wrapper {
 
 h2 {
     margin-bottom: 40px;
-    font-family: Avenir; 
+    font-family: 'Nunito', sans-serif;
     font-style: italic;
     font-size: 17px; 
     font-weight: 500; /* 400 ist normal */
@@ -73,7 +73,7 @@ h2 {
 
 label {
     width: 150px;
-    font-family: Avenir; 
+    font-family: 'Nunito', sans-serif; 
     font-style: italic;
     font-size: 17px; 
     font-weight:normal; 
@@ -85,7 +85,7 @@ input {
     padding: 4px 8px;
     border: 1px solid #bbb;
     border-radius: 5px;
-    font-family: Avenir;
+    font-family: 'Nunito', sans-serif;
     font-size: 15px;
     color: #382C27;
 }
@@ -95,7 +95,7 @@ input {
     margin: 90px auto 30px;    /* auto = zentriert */
     padding: 12px 32px;     /* macht ihn grösser */
     font-size: 17px;
-    font-family: Avenir;
+    font-family: 'Nunito', sans-serif;
     font-style: italic;
     color: white;         /* Schriftfarbe */
     background-color: #382C27;
@@ -125,11 +125,13 @@ input {
     color: white;
     padding: 10px;
     text-align: left;
+    font-family: 'Nunito', sans-serif;
 }
 
 .anzeige-table td { /* Tabellendaten */
     padding: 8px 10px;
     border-bottom: 1px solid #ddd;
+    font-family: 'Nunito', sans-serif;
 }
 
 .anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
