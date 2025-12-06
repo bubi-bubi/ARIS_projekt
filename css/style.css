@@ -120,13 +120,15 @@ input {
 .anzeige-table th { /* Tabellenkopf */
     background: rgb(23, 23, 50);
     color: white;
-    padding: 10px;
+    padding: 8px;
     text-align: left;
+    font-size: 14px;
 }
 
 .anzeige-table td { /* Tabellendaten */
-    padding: 8px 10px;
+    padding: 6px 8px;
     border-bottom: 1px solid #ddd;
+    font-size: 13px;
 }
 
 .anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
