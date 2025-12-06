@@ -21,21 +21,23 @@ f65=$(getVal "f65")
 m0_64=$(getVal "m0_64")
 m65=$(getVal "m65")
 
-dataset="/var/www/html/data/encoded-todesfälle.csv"
+dataset="/var/www/html/data/copy_todesfälle.csv"
 tmpfile=$(mktemp)
 
 # Prüfen ob Datensatz existiert & zwar so dass es mit x oder 0x geht und keine neue Zeile gemacht wird
+jahr=$(date -d "$wochenstart" +%Y)
+monat=$(date -d "$wochenstart" +%m)
+woche=$(date -d "$wochenstart" +%V)
+
 existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
-    'NR>1 && $1==j && $2==m && $3==w {print $0}' "$dataset")
+    'NR>1 && $1==j && $2==m && $3==w {print; exit}' "$dataset")
 
 if [ -z "$existing" ]; then
-    # Neuer Eintrag
-    total=$((f0_64 + f65 + m0_64 + m65))
+    # Neue KW → einfach neue Zeile anhängen
     echo "$jahr;$monat;$woche;$wochenstart;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
-
-    echo "<h3>Neuer Datensatz hinzugefügt.</h3>"
+    echo "<h3>Neuer Eintrag hinzugefügt.</h3>"
 else
-    # Alten Datensatz aktualisieren
+    # KW existiert → Werte addieren
     IFS=";" read -r ej em ew ews ef0 ef65 em0 em65 et <<< "$existing"
 
     new_f0=$((ef0 + f0_64))
@@ -44,20 +46,24 @@ else
     new_m65=$((em65 + m65))
     new_total=$((new_f0 + new_f65 + new_m0 + new_m65))
 
-    # Datei aktualisieren
-    grep -v "^$jahr;$monat;$woche;" "$dataset" > "$tmpfile"
-    awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" '{
-        if (NR==1) {print; next}   # Kopfzeile immer behalten
-        if ($1==j && $2==m && $3==w) next
-        print
-    }' "$dataset" > "$tmpfile"
-    echo "$jahr;$monat;$woche;$wochenstart;$new_f0;$new_f65;$new_m0;$new_m65;$new_total" >> "$tmpfile"
-    mv "$tmpfile" "$dataset"
+    # Alte Zeile ersetzen, Rest der Datei beibehalten
+    awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" -v nf0="$new_f0" -v nf65="$new_f65" \
+        -v nm0="$new_m0" -v nm65="$new_m65" -v nt="$new_total" -v nws="$wochenstart" '
+        NR==1 {print; next}
+        $1==j && $2==m && $3==w {
+            print j ";" m ";" w ";" nws ";" nf0 ";" nf65 ";" nm0 ";" nm65 ";" nt
+            next
+        }
+        {print}
+    ' "$dataset" > "$tmpfile"
 
+    mv "$tmpfile" "$dataset"
     echo "<h3>Bestehender Datensatz aktualisiert.</h3>"
 fi
 
 echo "<a href=\"/toderfassen.html\">Zurück</a>"
+echo "<br>"
+echo "<a href=\"/index.html\">Hauptseite</a>"
 
 
 
