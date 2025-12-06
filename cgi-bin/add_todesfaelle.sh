@@ -1,6 +1,7 @@
 #!/bin/bash
-
-echo "Content-type: text/html"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
 # Daten einlesen

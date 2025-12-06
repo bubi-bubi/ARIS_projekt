@@ -9,7 +9,6 @@
         <meta name="date" content="23.10.25">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/style.css" type="text/css">
-        
         <!-- meta code copied from ihazmemes.html -->
     </head>
    
@@ -28,7 +27,7 @@
         <h1> Todesfälle Freiburg </h1>
         <!--hier dann die filter rein??-->
         <section>
-        <h2>Daten filtern</h2>
+        <h3>Daten filtern</h3>
         <form action="cgi-bin/test1.sh" method="get">
             <label for="filter">Filter auswählen:</label>
             <select name="filter" id="filter">
@@ -37,7 +36,7 @@
                 <option value="maenner">Männer</option>
             </select>
 
-            <label for="year">Jahr auswählen:</label>
+            <label for="year"> Jahr auswählen: </label>
             <select name="year" id="year">
             <option value="">Alle Jahre</option>
                 <option value="2025">2025</option>
@@ -67,13 +66,14 @@
                 <option value="2001">2001</option>
                 <option value="2000">2000</option>
             </select>
-            <input type="submit" name="action" value="anzeigen">
-            <input type="submit" name="action" value="plot">
+            <br> <br>
+            <input type="submit" name="action" value="Anzeigen">
+            <input type="submit" name="action" value="Plot">
         </form>
         </section>
-        <section>
-            <p><a href="cgi-bin/anzeigen.sh">Todesfälle anzeigen.</a></p>
-        </section>
+        <div id="box1">
+            <a href="cgi-bin/anzeigen.sh">Todesfälle anzeigen.</a>
+        </div>
         <footer>
             <p class="footer">
                 Impressum<br>Team Eichörnli<br>Djamilja Shaila Heiniger, Nova Jost, Sonja Monika Mathis</p>    
