@@ -57,7 +57,7 @@ else
     echo "<h3>Bestehender Datensatz aktualisiert.</h3>"
 fi
 
-echo "<a href=\"/eingabe.html\">Zurück</a>"
+echo "<a href=\"/toderfassen.html\">Zurück</a>"
 
 
 
