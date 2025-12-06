@@ -141,3 +141,25 @@ input {
 .anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
     background: #d5a8c5; 
 }
+
+/* Allgemeine Button-Styles */
+form input[type="submit"] {
+    background-color: #382C27;      /* Dunkelbraun */
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-style: italic;
+    font-size: 16px;
+    border: 2px solid #382C27;
+    border-radius: 8px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;      /* sanfter Übergang beim Hover */
+    margin-right: 10px;             /* Abstand zwischen den Buttons */
+}
+
+/* Hover-Effekt */
+form input[type="submit"]:hover {
+    background-color: #6b4f42;      /* Helleres Braun beim Hover */
+    transform: scale(1.05);         /* leicht vergrößern */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* optionaler Schatten */
+}
