@@ -144,7 +144,7 @@ input {
 
 /* Allgemeine Button-Styles */
 form input[type="submit"] {
-    background-color: #382C27;      /* Dunkelbraun */
+    background-color: #382C27;
     color: white;
     font-family: 'Nunito', sans-serif;
     font-style: italic;
@@ -153,13 +153,12 @@ form input[type="submit"] {
     border-radius: 8px;
     padding: 8px 20px;
     cursor: pointer;
-    transition: all 0.3s ease;      /* sanfter Übergang beim Hover */
-    margin-right: 10px;             /* Abstand zwischen den Buttons */
+    transition: all 0.3s ease;
+    margin-right: 10px;
 }
 
-/* Hover-Effekt */
 form input[type="submit"]:hover {
-    background-color: #6b4f42;      /* Helleres Braun beim Hover */
-    transform: scale(1.05);         /* leicht vergrößern */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* optionaler Schatten */
+    background-color: #6b4f42;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
