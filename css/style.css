@@ -118,7 +118,7 @@ input {
 }
 
 .anzeige-table th { /* Tabellenkopf */
-    background: rgb(23, 23, 50);
+    background: #382C27;
     color: white;
     padding: 8px;
     text-align: left;
@@ -132,6 +132,6 @@ input {
 }
 
 .anzeige-table tr:nth-child(even) td { /* Abwechselnde Zeilenfarbe */
-    background: #d5a8c5; 
+    background: rgb(238,222,188); 
 }
 
