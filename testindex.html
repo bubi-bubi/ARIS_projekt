@@ -1,70 +1,160 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
+<html>
+    <head> 
         <title> formular </title>
-        <meta charset="utf8">
+        <meta charset="utf-8">
         <meta name="description" content="semesterprojekt für aris">
         <meta name="keywords" content="HTML, CSS, data, formular, forms, project">
         <meta name="author" content="nova jost, djamilja heiniger, sonja mathis">
         <meta name="date" content="23.10.25">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <h1>Todesfälle Freiburg</h1>
-    </header>
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <!-- meta code copied from ihazmemes.html -->
+       
+    </head>
 
-    <section>
-        <h2>Daten filtern</h2>
-        <form action="cgi-bin/test1.sh" method="get">
-            <label for="filter">Filter auswählen:</label>
-            <select name="filter" id="filter">
-                <option value="">Alle Daten</option>
-                <option value="frauen">Frauen</option>
-                <option value="maenner">Männer</option>
-            </select>
+    <body>
+        <header> 
+            <!--https://cdn.pixabay.com/photo/2013/06/30/11/19/switzerland-142372_1280.jpg-->
+            <img id="picture" src="images/himmel.jpg" width="100%" height="auto">
+        </header>
 
-            <label for="year">Jahr auswählen:</label>
-            <select name="year" id="year">
-            <option value="">Alle Jahre</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
-                <option value="2013">2013</option>
-                <option value="2012">2012</option>
-                <option value="2011">2011</option>
-                <option value="2010">2010</option>
-                <option value="2009">2009</option>
-                <option value="2008">2008</option>
-                <option value="2007">2007</option>
-                <option value="2006">2006</option>
-                <option value="2005">2005</option>
-                <option value="2004">2004</option>
-                <option value="2003">2003</option>
-                <option value="2002">2002</option>
-                <option value="2001">2001</option>
-                <option value="2000">2000</option>
+        <div id="box1">
+                <a class="menuelist"  href="index.html">Hauptseite</a>
+                <a class="visited" href="indexTe.html">Todesfälle eintragen</a>
+        </div>
+            
 
-         </select>
+        <!-- label und input benötigen wir für unsere Formatierung, da wir versuchen wollen das ganze auch etwas hübsch zu haben-->
+        <div id="wrapper">
+            <form action="/cgi-bin/add_todesfaelle.sh" method="post">
+        
+                <h2>Todesfälle eintragen</h2>
+        
+                <div class="ef">
+                    <label for="jahr">Jahr:</label>
+                    <input id="jahr" name="jahr" type="number" min="0" step="1" required placeholder="z. B. 2025">
+                </div>
+              
+                <div class="ef">
+                    <label for="monat">Monat:</label>
+                    <!-- datalist erlaubt Tippen (1 oder 01 oder Januar) + Klickauswahl -->
+                    <input id="monat" name="monat" list="monatList" placeholder="z. B. 1, 01 oder Januar" autocomplete="off" required>
+                    <datalist id="monatList">
+                        <option value="Januar"> 
+                        <option value="Februar">
+                        <option value="März"> 
+                        <option value="April"> 
+                        <option value="Mai"> 
+                        <option value="Juni"> 
+                        <option value="Juli"> 
+                        <option value="August"> 
+                        <option value="September"> 
+                        <option value="Oktober"> 
+                        <option value="November"> 
+                        <option value="Dezember">
+                    </datalist>
+                </div>
+              
+                <div class="ef">
+                    <label for="woche">Woche:</label>
+                    <!-- number gibt Pfeile / Keyboard; akzeptiert 1 oder 01 beim Tippen -->
+                    <input id="woche" name="woche" list="wochenList" placeholder="z. B. 1, 01 oder 23" autocomplete="off" required>                
+                    
+                    <datalist id="wochenList">
+                        <option value="01">
+                        <option value="02">
+                        <option value="03">
+                        <option value="04">
+                        <option value="05">
+                        <option value="06">
+                        <option value="07">
+                        <option value="08">
+                        <option value="09">
+                        <option value="10">
+                        <option value="11">
+                        <option value="12">
+                        <option value="13">
+                        <option value="14">
+                        <option value="15">
+                        <option value="16">
+                        <option value="17">
+                        <option value="18">
+                        <option value="19">
+                        <option value="20">
+                        <option value="21">
+                        <option value="22">
+                        <option value="23">
+                        <option value="24">
+                        <option value="25">
+                        <option value="26">
+                        <option value="27">
+                        <option value="28">
+                        <option value="29">
+                        <option value="30">
+                        <option value="31">
+                        <option value="32">
+                        <option value="33">
+                        <option value="34">
+                        <option value="35">
+                        <option value="36">
+                        <option value="37">
+                        <option value="38">
+                        <option value="39">
+                        <option value="40">
+                        <option value="41">
+                        <option value="42">
+                        <option value="43">
+                        <option value="44">
+                        <option value="45">
+                        <option value="46">
+                        <option value="47">
+                        <option value="48">
+                        <option value="49">
+                        <option value="50">
+                        <option value="51">
+                        <option value="52">
+                    </datalist>
+                
+                </div>
+              
+                <div class="ef">
+                    <label for="todesdatum">Todesdatum:</label>
+                    <!-- hier wählt Nutzer ein Datum — das Script berechnet die ISO-Woche automatisch -->
+                    <input id="todesdatum" name="todesdatum" type="date" required>
+                </div>
+              
+                <div class="ef">
+                    <label for="f0_64">Frauen bis 64:</label>
+                    <input id="f0_64" class="input" type="number" name="f0_64" value="0" min="0" max="20" step="1">
+                </div>
 
-            <input type="submit" name="action" value="anzeigen">
-<input type="submit" name="action" value="plot">
-        </form>
-    </section>
+                <div class="ef">
+                    <label for="m0_64">Männer bis 64:</label>
+                    <input id="m0_64" class="input" type="number" name="m0_64" value="0" min="0" max="20" step="1">
+                </div>
+              
+                <div class="ef">
+                    <label for="f65">Frauen ab 65:</label>
+                    <input id="f65" class="input" type="number" name="f65" value="0" min="0" max="20" step="1">
+                </div>
+              
+                <div class="ef">
+                    <label for="m65">Männer ab 65:</label>
+                    <input id="m65" class="input" type="number" name="m65" value="0" min="0" max="20" step="1">
+                </div>
+        
+                <button class="submit-btn" type="submit">Eintragen</button>
+                <button type="button" onclick="window.location.href='show_list.sh'">Neue Liste anzeigen</button>
+            </form>
+        </div>
 
-    <footer>
-        <p>&copy; Todesfälle Freiburg</p>
-    </footer>
-</body>
+        <footer>
+            <p class="footer">
+                Impressum<br>Team Eichörnli<br>Djamilja Shaila Heiniger, Nova Jost, Sonja Monika Mathis</p>    
+        </footer> 
+    
+    </body>
+
 </html>
