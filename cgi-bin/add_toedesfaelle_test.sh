@@ -6,41 +6,37 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-# POST-Daten einlesen
+# POST einlesen
 POSTDATA=$(cat)
 
-# Funktion um POST-Parameter auszulesen
 getVal() {
-    echo "$POSTDATA" | sed -n "s/.*$1=\([^&]*\).*/\1/p" | sed 's/%20/ /g; s/%C3%A4/ä/g; s/%C3%B6/ö/g; s/%C3%BC/ü/g'
+    echo "$POSTDATA" | sed -n "s/.*$1=\([^&]*\).*/\1/p" \
+    | sed 's/%20/ /g; s/%C3%A4/ä/g; s/%C3%B6/ö/g; s/%C3%BC/ü/g'
 }
 
-# Parameter entsprechen JETZT den HTML-Names!
 todesdatum=$(getVal "todesdatum")
 f0_64=$(getVal "f0_64")
 m0_64=$(getVal "m0_64")
 f65=$(getVal "f65")
 m65=$(getVal "m65")
 
-# Jahr / Monat / Woche automatisch aus Todesdatum berechnen
 jahr=$(date -d "$todesdatum" +%Y)
 monat=$(date -d "$todesdatum" +%m)
 woche=$(date -d "$todesdatum" +%V)
 
 total=$((f0_64 + m0_64 + f65 + m65))
 
-dataset="/var/www/html/data/copy_todesfaelle.csv"
+dataset="/var/www/html/data/copy_toedesfaelle2.csv"
 tmpfile=$(mktemp)
 
-# Prüfen, ob Eintrag existiert
+# Bestehende Zeile suchen
 existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
  'NR>1 && $1==j && $2==m && $3==w {print; exit}' "$dataset")
 
 if [ -z "$existing" ]; then
-    # Neuen Eintrag anhängen
     echo "$jahr;$monat;$woche;$todesdatum;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
     echo "<h3>Neuer Eintrag hinzugefügt.</h3>"
 else
-    # Bestehende Werte addieren
     IFS=";" read -r ej em ew ed ef0 ef65 em0 em65 et <<< "$existing"
 
     new_f0=$((ef0 + f0_64))
@@ -49,12 +45,11 @@ else
     new_m65=$((em65 + m65))
     new_total=$((new_f0 + new_f65 + new_m0 + new_m65))
 
-    # Alte Zeile ersetzen
     awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
-    -v dd="$todesdatum" \
-    -v nf0="$new_f0" -v nf65="$new_f65" \
-    -v nm0="$new_m0" -v nm65="$new_m65" \
-    -v nt="$new_total" \
+        -v dd="$todesdatum" \
+        -v nf0="$new_f0" -v nf65="$new_f65" \
+        -v nm0="$new_m0" -v nm65="$new_m65" \
+        -v nt="$new_total" \
     '
     NR==1 {print; next}
     $1==j && $2==m && $3==w {
@@ -71,4 +66,3 @@ fi
 
 echo "<a href=\"/testindex.html\">Zurück</a><br>"
 echo "<a href=\"/cgi-bin/show_list.sh\">Neue Liste anzeigen</a><br>"
-

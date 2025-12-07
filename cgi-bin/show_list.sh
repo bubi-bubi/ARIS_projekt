@@ -3,7 +3,7 @@
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-dataset="/var/www/html/data/copy_todesfaelle.csv"
+dataset="/var/www/html/data/copy_toedesfaelle2.csv"
 
 echo "<!DOCTYPE html>"
 echo "<html lang='de'>"
@@ -21,7 +21,6 @@ echo "<h2 style='text-align:center;'>Gespeicherte Todesfälle</h2>"
 
 echo "<table>"
 
-# Kopfzeile drucken
 header=1
 while IFS=";" read -r col1 col2 col3 col4 col5 col6 col7 col8 col9; do
     if [ $header -eq 1 ]; then
