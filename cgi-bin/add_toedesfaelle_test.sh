@@ -70,6 +70,5 @@ else
 fi
 
 echo "<a href=\"/testindex.html\">Zurück</a><br>"
-echo "<a href=\"/show_list.html\">Neue Liste anzeigen</a><br>"
-
+echo "<a href=\"/cgi-bin/show_list.sh\">Neue Liste anzeigen</a><br>"
 
