@@ -15,6 +15,7 @@ END=$(( START + PER_PAGE - 1 ))
 
 # HTML HEADER
 echo "<html><head>"
+echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
 echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
 echo "<title>Todesfälle</title>"
 echo "</head><body class=\"anzeige\">"

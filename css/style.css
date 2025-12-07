@@ -118,7 +118,7 @@ input {
 }
 
 .anzeige-table th { /* Tabellenkopf */
-    background: #382C27;
+    background: rgb(85,95,95);
     color: white;
     padding: 8px;
     text-align: left;
