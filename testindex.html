@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head> 
+    <title>Formular Todesfälle</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todesfälle eintragen</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
@@ -11,7 +11,7 @@
 <body>
 
 <header>
-    <img id="picture" src="images/himmel.jpg" width="100%" height="auto" alt="Himmel Bild">
+    <img id="picture" src="images/himmel.jpg" width="100%" height="auto">
 </header>
 
 <div id="box1">
@@ -20,7 +20,7 @@
 </div>
 
 <div id="wrapper">
-<form action="/cgi-bin/add_todesfaelle_test.sh" method="post">
+<form action="/cgi-bin/add_td2.sh" method="post">
 
     <h2>Todesfälle eintragen</h2>
 
@@ -50,11 +50,12 @@
     </div>
 
     <button class="submit-btn" type="submit">Eintragen</button>
-</form>
-</div>
 
-<div id="box1" style="text-align:center; margin-top:20px;">
-    <a href="/cgi-bin/show_list.sh">Todesfälle anzeigen</a>
+    <div id="box1" style="margin-top:10px;">
+        <a href="/cgi-bin/show_list.sh">Neue Liste anzeigen</a>
+    </div>
+
+</form>
 </div>
 
 <footer>

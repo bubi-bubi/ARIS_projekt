@@ -34,7 +34,7 @@ done < "$dataset"
 echo "</table>"
 
 echo "<div style='text-align:center; margin-top:20px;'>"
-echo "<a href='/testindex.html'>Zurück zum Formular</a>"
+echo "<a href='/testindex.html'>Zurück</a>"
 echo "</div>"
 
 echo "</body></html>"
