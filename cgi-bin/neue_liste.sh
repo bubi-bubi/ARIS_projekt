@@ -3,7 +3,7 @@
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-dataset="/var/www/html/data/copy_todesfaelle2.csv"
+dataset="/var/www/html/data/copy_todesfälle.csv"
 
 echo "<!DOCTYPE html>"
 echo "<html lang='de'>"
@@ -34,7 +34,7 @@ done < "$dataset"
 echo "</table>"
 
 echo "<div style='text-align:center; margin-top:20px;'>"
-echo "<a href='/testindex.html'>Zurück</a>"
+echo "<a href='/formular.html'>Zurück</a>"
 echo "</div>"
 
 echo "</body></html>"
