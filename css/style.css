@@ -13,8 +13,7 @@ header {
 h1 {
     text-align: right;
     width: 100%;
-    color: red;
-    /*color: #382C27;*/
+    color: #382C27;
 }
 
 
@@ -69,10 +68,7 @@ h2 {
     margin-bottom: 40px;
     font-size: 19px; 
     font-weight: 700; /* 400 ist normal */
-    /*color: #382C27; */ 
-    color: red;  
-
-    background-color: aqua; 
+    color: #382C27;
 }
 
 .ef {
