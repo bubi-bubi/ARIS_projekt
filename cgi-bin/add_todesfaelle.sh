@@ -15,7 +15,7 @@ getVal() {
 jahr=$(getVal "Jahr")
 monat=$(getVal "Monat")
 woche=$(getVal "Woche")
-wochenstart=$(getVal "Todesdatum")
+
 f0_64=$(getVal "Frauen bis 64")
 f65=$(getVal "Frauen ab 65")
 m0_64=$(getVal "Männer bis 64")
