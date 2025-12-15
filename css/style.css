@@ -3,11 +3,6 @@
     font-family: 'Nunito', sans-serif;
 }
 
-content {
-    max-width: 1000px;
-    margin: auto;
-}
-
 header {
     padding:0;
     margin: 0;
@@ -15,14 +10,25 @@ header {
     overflow-y: hidden;   
 }
 
-h1 {
-    text-align: right;
+div#title {
+    width: 100%;            /* Container füllt die ganze Breite */
+    text-align: center;     /* Text im Container zentrieren */
+    margin-top: clamp(90px, 5vw, 90px);  /* Abstand nach oben */
     width: 100%;
-    color: #382C27;
 }
 
+h1{
+    /*margin-bottom: 40px;*/
+    font-size: 19px; 
+    font-weight: 700; /* 400 ist normal */
+    color: #382C27;  
+}
+
+
 div#box1 {
-    margin: clamp(10px, 3vw, 40px) auto 0;
+    margin-top: 3%;
+    margin-left: 3%;
+    margin-right:3%;
 }
 
 .menuelist {
