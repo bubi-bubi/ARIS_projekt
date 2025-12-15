@@ -3,7 +3,7 @@
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-dataset="/var/www/html/data/todesfälle_final.csv"
+dataset="/var/www/html/data/tf.csv"
 
 echo "<!DOCTYPE html>"
 echo "<html lang='de'>"

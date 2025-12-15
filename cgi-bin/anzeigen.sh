@@ -4,7 +4,7 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-DATEI_PFAD="../data/todesfälle_final.csv"
+DATEI_PFAD="../data/tf.csv"
 
 # Paginierung
 PER_PAGE=20

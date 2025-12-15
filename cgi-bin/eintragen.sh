@@ -26,7 +26,7 @@ woche=$(date -d "$todesdatum" +%V)
 
 total=$((f0_64 + m0_64 + f65 + m65))
 
-dataset="/var/www/html/data/todesfälle_final.csv"
+dataset="/var/www/html/data/tf.csv"
 tmpfile=$(mktemp)
 
 # Prüfen, ob Eintrag für Jahr/Monat/Woche existiert
