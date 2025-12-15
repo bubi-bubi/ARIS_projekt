@@ -3,7 +3,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # Pfad zur CSV-Datei
-DATEI_PFAD="../data/todesfälle_final.csv"
+DATEI_PFAD="../data/tf.csv"
 
 
 # PARAMETER --------------------------------------------------------------------------------

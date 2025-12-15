@@ -21,7 +21,7 @@ f65=$(getVal "Frauen ab 65")
 m0_64=$(getVal "Männer bis 64")
 m65=$(getVal "Männer ab 65")
 
-dataset="/var/www/html/data/todesfälle_final.csv"
+dataset="/var/www/html/data/tf.csv"
 tmpfile=$(mktemp)
 
 #DAS FUNKTIONIERT NOCH NICHT!! ES WERDEN KEINE NEUEN DATEN HINZUGEFÜGT!
