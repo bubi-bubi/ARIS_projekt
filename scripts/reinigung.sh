@@ -11,4 +11,6 @@ sed 's/Hommes 65+/Männer 65+/'|
 
 cut -d ';' -f1-3,5-9|
 
-sort -k 1n 
+sort -k 1n |
+sort -k 2n | 
+sort -k 3n;
