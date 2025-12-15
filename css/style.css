@@ -47,6 +47,11 @@ div#box1 {
     margin-top: clamp(90px, 5vw, 60px);
 }
 
+div#title {
+ display: flex;
+ justify-content: center;
+}
+
 /* CSS für Eingabe */
 /* Allgemeiner Wrapper mit gutem Abstand */
 
