@@ -26,12 +26,14 @@ woche=$(date -d "$todesdatum" +%V)
 
 total=$((f0_64 + m0_64 + f65 + m65))
 
-dataset="/var/www/html/data/copy_todesfaelle2.csv"
+dataset="/var/www/html/data/copy_todesfälle.csv"
 tmpfile=$(mktemp)
 
 # Prüfen, ob Eintrag für Jahr/Monat/Woche existiert
 existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
  'NR>1 && $1==j && $2==m && $3==w {print; exit}' "$dataset")
+
+echo "<html><body>"
 
 if [ -z "$existing" ]; then
     echo "$jahr;$monat;$woche;$todesdatum;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
@@ -64,5 +66,7 @@ else
     echo "<h3>Bestehender Datensatz aktualisiert.</h3>"
 fi
 
-echo "<a href=\"/testindex.html\">Zurück</a><br>"
-echo "<a href=\"/cgi-bin/show_list.sh\">Neue Liste anzeigen</a><br>"
+echo "<a href=\"/formular.html\">Zurück</a><br>"
+echo "<a href=\"/cgi-bin/neue_liste.sh\">Neue Liste anzeigen</a><br>"
+
+echo "</body></html>"
