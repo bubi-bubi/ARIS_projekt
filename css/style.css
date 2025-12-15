@@ -3,12 +3,22 @@
     font-family: 'Nunito', sans-serif;
 }
 
+content {
+    max-width: 1000px;
+    margin: auto;
+}
+
 header {
     padding:0;
     margin: 0;
-    display:contents;
     position: relative;
     overflow-y: hidden;   
+}
+
+h1 {
+    text-align: right;
+    width: 100%;
+    color: #382C27;
 }
 
 div#box1 {
@@ -45,11 +55,6 @@ div#box1 {
     color: white;
     height: 100px;             /* wichtig für vertikale Zentrierung */
     margin-top: clamp(90px, 5vw, 60px);
-}
-
-div#title {
- display: flex;
- justify-content: center;
 }
 
 /* CSS für Eingabe */

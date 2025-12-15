@@ -10,53 +10,55 @@
 
 <body>
 
-<header>
-    <img id="picture" src="images/himmel.jpg" width="100%" height="auto">
-</header>
+    <header>
+        <img id="picture" src="images/himmel.jpg" width="100%" height="auto">
+    </header>   
 
-<div id="box1">
-    <a class="menuelist" href="index.html">Hauptseite</a>
-    <a class="visited" href="formular.html">Todesfälle eintragen</a>
-</div>
+    <h1>Todesfälle Freiburg</h1>
 
-<div id="wrapper">
-<form action="/cgi-bin/eintragen.sh" method="post">
-
-    <h2>Todesfälle eintragen</h2>
-
-    <div class="ef">
-        <label for="todesdatum">Todesdatum:</label>
-        <input id="todesdatum" name="todesdatum" type="date" required>
+    <div id="box1">
+        <a class="menuelist" href="index.html">Todesfälle anzeigen</a>
+        <a class="visited" href="formular.html">Todesfälle eintragen</a>
     </div>
 
-    <div class="ef">
-        <label for="f0_64">Frauen bis 64:</label>
-        <input id="f0_64" name="f0_64" type="number" value="0" min="0" max="20">
+    <div id="wrapper">
+        <form action="/cgi-bin/eintragen.sh" method="post">
+
+            <h2>Todesfälle eintragen</h2>
+
+            <div class="ef">
+                <label for="todesdatum">Todesdatum:</label>
+                <input id="todesdatum" name="todesdatum" type="date" required>
+            </div>
+
+            <div class="ef">
+                <label for="f0_64">Frauen bis 64:</label>
+                <input id="f0_64" name="f0_64" type="number" value="0" min="0" max="20">
+            </div>
+
+            <div class="ef">
+                <label for="m0_64">Männer bis 64:</label>
+                <input id="m0_64" name="m0_64" type="number" value="0" min="0" max="20">
+            </div>
+
+            <div class="ef">
+                <label for="f65">Frauen ab 65:</label>
+                <input id="f65" name="f65" type="number" value="0" min="0" max="20">
+            </div>
+
+            <div class="ef">
+                <label for="m65">Männer ab 65:</label>
+                <input id="m65" name="m65" type="number" value="0" min="0" max="20">
+            </div>
+
+            <button class="submit-btn" type="submit">Eintragen</button>
+
+            <div id="box1" style="margin-top:10px;">
+                <a href="/cgi-bin/neue_liste.sh">Neue Liste anzeigen</a>
+            </div>
+
+        </form>
     </div>
-
-    <div class="ef">
-        <label for="m0_64">Männer bis 64:</label>
-        <input id="m0_64" name="m0_64" type="number" value="0" min="0" max="20">
-    </div>
-
-    <div class="ef">
-        <label for="f65">Frauen ab 65:</label>
-        <input id="f65" name="f65" type="number" value="0" min="0" max="20">
-    </div>
-
-    <div class="ef">
-        <label for="m65">Männer ab 65:</label>
-        <input id="m65" name="m65" type="number" value="0" min="0" max="20">
-    </div>
-
-    <button class="submit-btn" type="submit">Eintragen</button>
-
-    <div id="box1" style="margin-top:10px;">
-        <a href="/cgi-bin/neue_liste.sh">Neue Liste anzeigen</a>
-    </div>
-
-</form>
-</div>
 
 <footer>
     <p class="footer">
