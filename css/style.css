@@ -15,7 +15,7 @@ header {
     overflow-y: hidden;   
 }
 
-h1 {
+.h1 {
     text-align: right;
     width: 100%;
     color: #ca4c95;
