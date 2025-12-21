@@ -78,13 +78,13 @@ PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
         YEAR_TEXT="$YEAR"
     fi
 
-    # Gestaltung Gnuplot
-    gnuplot <<EOF
+# Gestaltung Gnuplot
+gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
 
 set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
-set xlabel "Zeitraum" offset 0,3
+set xlabel "Zeitraum"
 set ylabel "Anzahl Todesfälle"
 set grid
 
@@ -94,15 +94,29 @@ set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
 
-    echo "Content-Type: image/png"
-    echo ""
-    cat "$TMP_PNG"
+# HTML-Ausgabe statt rohes PNG
+echo "Content-Type: text/html; charset=UTF-8"
+echo ""
+echo "<html><head>"
+echo "<title>Visualisierung</title>"
+echo '<link rel="stylesheet" href="../css/style.css">'
+echo "</head><body class=\"anzeige\">"
 
-    rm "$TMP_PNG"
-    rm /tmp/plot_data.txt
+echo "<h1>Todesfälle Freiburg – Visualisierung</h1>"
 
-    exit 0
+# PNG direkt ins HTML einbetten
+echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='max-width:100%; height:auto;'>"
+
+echo "<p><a href=\"../index.html\">Zurück zur Auswahl</a></p>"
+
+echo "</body></html>"
+
+rm "$TMP_PNG"
+rm /tmp/plot_data.txt
+
+exit 0
 fi
+
 
 
 
