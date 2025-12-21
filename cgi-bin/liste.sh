@@ -101,6 +101,7 @@ echo "<html><head>"
 echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
 echo "<title>Visualisierung</title>"
 echo '<link rel="stylesheet" href="../css/style.css">'
+echo "<title>Todesfälle Freiburg</title>"
 echo "</head><body class=\"anzeige\">"
 echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
 # Footer
