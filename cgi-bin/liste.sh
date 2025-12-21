@@ -32,7 +32,7 @@ NR>1 {
 }' "$DATEI_PFAD")
 
 # Sortierung der Liste (numerisch, absteigend nach Jahr)
-FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr)
+FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr -k2,2nr)
 
 # Paginierung
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
@@ -52,16 +52,16 @@ PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
     # Gnuplot-Daten vorbereiten
     # x = NR, y = Total / Summe Frauen / Summe Männer
     if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
-        echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
+        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
     else
-        echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
+        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
     fi
 
     # Erstes und letztes Datum (Monat + Jahr)
     X1=1
     X2=$(wc -l < /tmp/plot_data.txt)
-    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
-    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+    LABEL1=$(echo "$PLOT_DATA_SORTED" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+    LABEL2=$(echo "$PLOT_DATA_SORTED" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
