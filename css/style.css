@@ -87,30 +87,28 @@ label {
     font-weight:normal; 
     color: #382C27; 
 }
-
-input {
-    width: 120px;
-    padding: 4px 8px;
+.ef input,
+.ef select {
+    width: 150px;           /* einheitliche Breite */
+    min-width: 120px;       /* verhindert zu kleine Felder auf kleinen Bildschirmen */
+    max-width: 200px;       /* verhindert zu große Felder auf großen Bildschirmen */
+    padding: 6px 10px;      /* etwas mehr Padding für bessere Optik */
+    height: 40px;           /* gleiche Höhe für alle Felder */
+    line-height: 1.2;       /* vertikale Textzentrierung */
     border: 1px solid #bbb;
     border-radius: 5px;
     font-size: 15px;
     color: #382C27;
+    box-sizing: border-box; /* Padding und Border zählen zur Gesamtbreite */
+    flex: 1;   /* wächst gleichmäßig innerhalb der Zeile */
 }
 
-select {
-    width: 120px;
-    padding: 4px 8px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    font-size: 15px;
-    color: #382C27;
-}
-
+/* Buttons responsive Abstände */
 .button-row {
     display: flex;
     justify-content: center;
-    gap: 40px;              /* Abstand zwischen den Buttons */
-    margin: 90px 0 30px;    /* Abstand der ganzen Button-Zeile */
+    gap: 40px;  /* Abstand zwischen Buttons */
+    margin: clamp(20px, 5vh, 60px) 0 clamp(10px, 3vh, 30px); /* responsive Abstand oben/unten */
 }
 
 .submit-btn2 {
