@@ -107,8 +107,7 @@ echo "<h1>Todesfälle Freiburg</h1>"
 # PNG direkt ins HTML einbetten
 echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
 
-
-echo "<p><a href=\"../index.html\">Zurück zur Auswahl</a></p>"
+echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
 
 echo "</body></html>"
 
