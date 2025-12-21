@@ -100,7 +100,8 @@ echo ""
 echo "<html><head>"
 echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
 echo '<link rel="stylesheet" href="../css/style.css">'
-echo "<title>Todesfälle Freiburg</title>"
+echo "<title>Visualisierung</title>"
+echo "<header><h1>Todesfälle Freiburg</h1></header>"
 echo "</head><body class=\"anzeige\">"
 echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
 # Footer
@@ -120,7 +121,7 @@ echo ""
 echo "<html><head>"
 echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
 echo '<link rel="stylesheet" href="../css/style.css">'
-echo "<title>Todesfälle Freiburg</title>"
+echo "<title>Todesfälle Freiburg Liste</title>"
 echo "</head><body class=\"anzeige\">"
 echo "<header><h1>Todesfälle Freiburg</h1></header>"
 
