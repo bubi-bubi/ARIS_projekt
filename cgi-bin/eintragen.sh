@@ -6,7 +6,7 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
-# CSV-Datei
+# Pfad zur CSV-Datei
 dataset="/var/www/html/data/tf.csv"
 tmpfile=$(mktemp)
 
@@ -22,7 +22,7 @@ getVal() {
 # Todesdatum vom Formular
 todesdatum=$(getVal "todesdatum")
 
-# Jahr, Monat, Woche berechnen
+# Jahr, Monat, Woche berechnen, anhand vom Todesdatum
 jahr=$(date -d "$todesdatum" +%Y)
 monat=$(date -d "$todesdatum" +%m)
 woche=$(date -d "$todesdatum" +%V)
