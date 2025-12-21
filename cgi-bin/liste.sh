@@ -31,7 +31,7 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-# Sortierung der Liste (numerisch, absteigend nach Jahr
+# Sortierung der Liste (numerisch, absteigend nach Jahr)
 FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr)
 
 # Paginierung
@@ -117,7 +117,7 @@ echo "<title>Todesfälle Freiburg</title>"
 echo "</head><body class=\"anzeige\">"
 echo "<header><h1>Todesfälle Freiburg</h1></header>"
 
-# ---------------------- Tabelle ----------------------
+# Tabelle
 echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>"
 
 # Tabellenkopf
@@ -145,7 +145,7 @@ echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
 
 echo "</table>"
 
-# ---------------------- Paginierung Links ----------------------
+# Paginierung-Links
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
 
@@ -180,7 +180,7 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-# ---------------------- Footer ----------------------
+# Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
