@@ -6,6 +6,11 @@ export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 
+# CSV-Datei
+dataset="/var/www/html/data/tf.csv"
+tmpfile=$(mktemp)
+
+# POST-Daten auslesen
 POSTDATA=$(cat)
 
 # Funktion zum Auslesen der POST-Parameter
@@ -14,30 +19,37 @@ getVal() {
     | sed 's/%20/ /g; s/%C3%A4/ä/g; s/%C3%B6/ö/g; s/%C3%BC/ü/g'
 }
 
+# Todesdatum vom Formular
+todesdatum=$(getVal "todesdatum")
+
+# Jahr, Monat, Woche berechnen
 jahr=$(date -d "$todesdatum" +%Y)
 monat=$(date -d "$todesdatum" +%m)
 woche=$(date -d "$todesdatum" +%V)
 
+# Zahlen aus dem Formular
 f0_64=$(getVal "f0_64")
 m0_64=$(getVal "m0_64")
 f65=$(getVal "f65")
 m65=$(getVal "m65")
-
 total=$((f0_64 + m0_64 + f65 + m65))
-
-dataset="/var/www/html/data/tf.csv"
-tmpfile=$(mktemp)
 
 # Prüfen, ob Eintrag für Jahr/Monat/Woche existiert
 existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
  'NR>1 && $1==j && $2==m && $3==w {print; exit}' "$dataset")
 
-echo "<html><body>"
+echo "<!DOCTYPE html>"
+echo "<html lang='de'>"
+echo "<head><meta charset='UTF-8'><title>Todesfälle – Eintrag</title></head>"
+echo "<body>"
+echo "<h2 style='text-align:center;'>Todesfälle – Eintrag</h2>"
 
 if [ -z "$existing" ]; then
+    # Neuer Eintrag
     echo "$jahr;$monat;$woche;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
-    echo "<h3>Neuer Eintrag hinzugefügt.</h3>"
+    echo "<p style='text-align:center; color:green;'>Neuer Eintrag wurde hinzugefügt.</p>"
 else
+    # Update bestehender Eintrag
     IFS=";" read -r ej em ew ef0 ef65 em0 em65 et <<< "$existing"
 
     new_f0=$((ef0 + f0_64))
@@ -50,21 +62,31 @@ else
         -v nf0="$new_f0" -v nf65="$new_f65" \
         -v nm0="$new_m0" -v nm65="$new_m65" \
         -v nt="$new_total" \
-    '
-    NR==1 {print; next}
+    'NR==1 {print; next}
     $1==j && $2==m && $3==w {
         print j ";" m ";" w ";" nf0 ";" nf65 ";" nm0 ";" nm65 ";" nt
         next
     }
-    {print}
-    ' "$dataset" > "$tmpfile"
+    {print}' "$dataset" > "$tmpfile"
 
     mv "$tmpfile" "$dataset"
 
-    echo "<h3>Bestehender Datensatz aktualisiert.</h3>"
+    echo "<p style='text-align:center; color:blue;'>Bestehender Eintrag wurde aktualisiert.</p>"
 fi
 
-echo "<a href=\"/formular.html\">Zurück</a><br>"
-echo "<a href=\"/cgi-bin/anzeigen.sh\">Neue Liste anzeigen</a><br>"
+# Tabelle anzeigen
+echo "<table border='1' cellpadding='6' cellspacing='0' style='margin:auto; border-collapse:collapse;'>"
+echo "<tr><th>Jahr</th><th>Monat</th><th>Woche</th><th>F 0-64</th><th>F 65+</th><th>M 0-64</th><th>M 65+</th><th>Total</th></tr>"
+
+while IFS=";" read -r col1 col2 col3 col4 col5 col6 col7 col8 col9; do
+    echo "<tr><td>$col1</td><td>$col2</td><td>$col3</td><td>$col4</td><td>$col5</td><td>$col6</td><td>$col7</td><td>$col8</td></tr>"
+done < "$dataset"
+
+echo "</table>"
+
+echo "<div style='text-align:center; margin-top:20px;'>"
+echo "<a href='/formular.html'>Zurück zum Formular</a> | "
+echo "<a href='/cgi-bin/anzeigen.sh'>Tabelle anzeigen</a>"
+echo "</div>"
 
 echo "</body></html>"
