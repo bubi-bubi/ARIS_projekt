@@ -67,7 +67,7 @@ PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
 
     # Filtertext für den Titel
 if [ -z "$FILTER" ]; then
-    FILTER_TEXT="Männer & Frauen"
+    FILTER_TEXT="Männer und Frauen"
 elif [ "$FILTER" = "frauen" ]; then
     FILTER_TEXT="Frauen"
 elif [ "$FILTER" = "maenner" ]; then
