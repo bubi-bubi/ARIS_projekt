@@ -105,7 +105,7 @@ echo "</head><body class=\"anzeige\">"
 echo "<h1>Todesfälle Freiburg</h1>"
 
 # PNG direkt ins HTML einbetten
-echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' class="plot">
+echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='max-width:100%; height:auto;'>"
 
 echo "<p><a href=\"../index.html\">Zurück zur Auswahl</a></p>"
 
