@@ -47,18 +47,18 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 if [ "$ACTION" = "visualisierung" ]; then
 
     # Gnuplot-Daten vorbereiten
+    # x = NR, y = Total / Summe Frauen / Summe Männer
     if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
         echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
     else
         echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
     fi
 
-    # Erstes und letztes Datum (Monat + Jahr aus Spalte 4 direkt übernehmen)
-    X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
-    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')
-
+    # Erstes und letztes Datum (Monat + Jahr)
+    X1=1
     X2=$(wc -l < /tmp/plot_data.txt)
-    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $4}')
+    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
@@ -75,6 +75,7 @@ if [ "$ACTION" = "visualisierung" ]; then
         YEAR_TEXT="$YEAR"
     fi
 
+    # Gestaltung Gnuplot
     gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
@@ -84,7 +85,6 @@ set xlabel "Zeitraum" offset 0,3
 set ylabel "Anzahl Todesfälle"
 set grid
 
-# explizites xtics-Format: nur Start- und Enddatum als Beschriftung
 set xtics rotate by 90 right
 set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
@@ -100,6 +100,7 @@ EOF
 
     exit 0
 fi
+
 
 
 # HTML-Header
