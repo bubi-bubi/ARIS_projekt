@@ -24,8 +24,18 @@
         <form action="/cgi-bin/eintragen.sh" method="post">
 
             <div class="ef">
-                <label for="todesdatum">Todesdatum:</label>
-                <input id="todesdatum" name="todesdatum" type="date" required>
+                <label class="label">Jahr:</label>
+                <input class="input" type="number" name="jahr" required>
+            </div>
+            
+            <div class="ef">
+                <label class="label">Monat:</label>
+                <input class="input" type="number" name="monat" required>
+            </div>
+            
+            <div class="ef">
+                <label class="label">Woche:</label>
+                <input class="input" type="number" name="woche" required>
             </div>
 
             <div class="ef">
