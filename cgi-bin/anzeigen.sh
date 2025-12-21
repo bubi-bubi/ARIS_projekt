@@ -33,7 +33,7 @@ head -n 1 "$DATEI_PFAD" | awk -F';' '{
 }'
 
 # Datenzeilen sortieren und paginieren
-FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD" | sort -t';' -k1,1nr)
+FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD" | sort -t';' -k 1nr)
 
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
     if (NR >= start && NR <= end) {
@@ -70,6 +70,9 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
 
     echo "</div>"
 fi
+
+
+
 
 # Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"

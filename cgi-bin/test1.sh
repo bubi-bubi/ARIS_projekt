@@ -35,6 +35,18 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
+# Datenzeilen sortieren -----------------------------------------------------------------
+FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD" | sort -t';' -k 1nr)
+
+echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
+    if (NR >= start && NR <= end) {
+        print "<tr>";
+        for(i=1;i<=NF;i++) print "<td>" $i "</td>";
+        print "</tr>"
+    }
+}'
+
+echo "</table>"
 
 # PLOT KLICKEN--------------------------------------------------------------------------------------------
 if [ "$ACTION" = "visualisierung" ]; then
