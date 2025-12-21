@@ -46,6 +46,9 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 # PLOT KLICKEN
 if [ "$ACTION" = "visualisierung" ]; then
 
+# Aufsteigende sortierung fürs Plotten
+PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
+
     # Gnuplot-Daten vorbereiten
     # x = NR, y = Total / Summe Frauen / Summe Männer
     if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
