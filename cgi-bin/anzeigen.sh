@@ -37,11 +37,6 @@ FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD")  # keine Filter, einfach alle Daten
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
     row_num = NR
     if (row_num >= start && row_num <= end) {
-
-        # Spalte 2 und 3: nur Werte 1–9 mit führender 0
-        if ($2 >= 1 && $2 <= 9) $2 = "0" $2
-        if ($3 >= 1 && $3 <= 9) $3 = "0" $3
-
         print "<tr>";
         for(i=1;i<=NF;i++) print "<td>" $i "</td>";
         print "</tr>"
