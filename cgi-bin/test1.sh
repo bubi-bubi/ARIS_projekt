@@ -2,25 +2,25 @@
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+# CGI Header
+echo "Content-type: text/html; charset=UTF-8"
+echo ""
+
 # Pfad zur CSV-Datei
 DATEI_PFAD="../data/tf.csv"
 
-
-# PARAMETER --------------------------------------------------------------------------------
-
-# Paginierung
+# ---------------------- Parameter ----------------------
 PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
 PAGE=${PAGE:-1}
 
-# Filter lesen
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
-YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
+YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^jahr=' | cut -d'=' -f2)
 
-# Action: anzeigen oder plot
 ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | tr 'A-Z' 'a-z')
 
+PER_PAGE=20
 
-# FILTERN ----------------------------------------------------------------------------------------------
+# ---------------------- Filterung ----------------------
 FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
     if(year!="" && $1!=year) next
@@ -35,108 +35,33 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-# Datenzeilen sortieren -----------------------------------------------------------------
-FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD" | sort -t';' -k 1nr)
+# ---------------------- Sortierung ----------------------
+# Sortiere nach Jahr (erste Spalte) absteigend
+FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr)
 
-echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
-    if (NR >= start && NR <= end) {
-        print "<tr>";
-        for(i=1;i<=NF;i++) print "<td>" $i "</td>";
-        print "</tr>"
-    }
-}'
-
-echo "</table>"
-
-# PLOT KLICKEN--------------------------------------------------------------------------------------------
-if [ "$ACTION" = "visualisierung" ]; then
-
-    # Gnuplot-Daten vorbereiten
-    # x = NR, y = Total / Summe Frauen / Summe Männer
-    if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
-        echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
-    else
-        echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
-    fi
-
-    # Erstes und letztes Datum
-    X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
-    LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')
-
-    X2=$(wc -l < /tmp/plot_data.txt)
-    LABEL2=$(echo "$FILTERED_DATA" | tail -n 1 | awk -F';' '{print $4}')
-
-    TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
-
-# Filtertext
-if [ -z "$FILTER" ]; then
-    FILTER_TEXT="Alle"
-else
-    FILTER_TEXT="$FILTER"
-fi
-
-if [ -z "$YEAR" ]; then
-    YEAR_TEXT="alle Jahre"
-else
-    YEAR_TEXT="$YEAR"
-fi
-
-#Gestaltung Gnuplot
-gnuplot <<EOF
-set term pngcairo size 900,600
-set output "$TMP_PNG"
-
-set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
-set xlabel "Zeitraum" offset 0,3
-set ylabel "Anzahl Todesfälle"
-set grid
-
-set xtics rotate by 90 right
-set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
-
-plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
-EOF
-
-    echo "Content-Type: image/png"
-    echo ""
-    cat "$TMP_PNG"
-
-    rm "$TMP_PNG"
-    rm /tmp/plot_data.txt
-
-    exit 0
-fi
-
-#HTML AUSGABE NACH ANZEIGE----------------------------------------------------------------------------
-echo "Content-type: text/html; charset=UTF-8"
-echo ""
-
-# Paginierung
-PER_PAGE=20
+# ---------------------- Paginierung ----------------------
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
 TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-
-# HTML HEADER------------------------------------------------------------------------------------------
+# ---------------------- HTML Header ----------------------
 echo "<html><head>"
 echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
-echo "<link rel=\"stylesheet\" href=\"../css/style.css\">"
-echo "<title>Todesfälle</title>"
+echo '<link rel="stylesheet" href="../css/style.css">'
+echo "<title>Todesfälle Freiburg</title>"
 echo "</head><body class=\"anzeige\">"
 echo "<header><h1>Todesfälle Freiburg</h1></header>"
 
-
-# TABELLE --------------------------------------------------------------------------------------------------
+# ---------------------- Tabelle ----------------------
 echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>"
 
 # Tabellenkopf
 head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
     print "<tr>";
-    if (filter=="frauen") {
+    if(filter=="frauen") {
         print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Frauen gesamt</th><th>Total</th>"
-    } else if (filter=="maenner") {
+    } else if(filter=="maenner") {
         print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Männer gesamt</th><th>Total</th>"
     } else {
         for(i=1;i<=NF;i++) print "<th>" $i "</th>";
@@ -144,26 +69,26 @@ head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
     print "</tr>"
 }'
 
-# Zeilen
+# Tabellenzeilen mit Paginierung
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
     row_num=NR
     if(row_num>=start && row_num<=end){
-        print "<tr>";
-        for(i=1;i<=NF;i++) print "<td>" $i "</td>";
+        print "<tr>"
+        for(i=1;i<=NF;i++) print "<td>" $i "</td>"
         print "</tr>"
     }
 }'
 
 echo "</table>"
 
-# PAGING--------------------------------------------------------------------------------------------------
+# ---------------------- Paginierung Links ----------------------
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
 
     LINK_BASE="test1.sh"
     PARAMS=()
     [ -n "$FILTER" ] && PARAMS+=("filter=$FILTER")
-    [ -n "$YEAR" ] && PARAMS+=("year=$YEAR")
+    [ -n "$YEAR" ] && PARAMS+=("jahr=$YEAR")
 
     build_link() {
         local page=$1
@@ -176,7 +101,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
         echo "$link"
     }
 
-    # Back
     if [ "$PAGE" -gt 1 ]; then
         PREV=$((PAGE-1))
         echo "<a href='$(build_link $PREV)'>Back</a> "
@@ -184,7 +108,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
 
     echo "<strong>$PAGE</strong>"
 
-    # Next
     if [ "$PAGE" -lt "$TOTAL_PAGES" ]; then
         NEXT=$((PAGE+1))
         echo " <a href='$(build_link $NEXT)'>Next</a>"
@@ -193,7 +116,7 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-# FOOTER-------------------------------------------------------------------------------------------------
+# ---------------------- Footer ----------------------
 echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
