@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 # Pfad zur CSV-Datei
 DATEI_PFAD="../data/tf.csv"
 
-# ---------------------- Parameter ----------------------
+# Parameter festlegen
 PAGE=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^page=' | cut -d'=' -f2)
 PAGE=${PAGE:-1}
 
@@ -16,7 +16,7 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 
 PER_PAGE=20
 
-# ---------------------- Filterung ----------------------
+# Filterung der Liste
 FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
     if(year!="" && $1!=year) next
@@ -31,17 +31,16 @@ NR>1 {
     }
 }' "$DATEI_PFAD")
 
-# ---------------------- Sortierung ----------------------
-# Sortiere nach Jahr (erste Spalte) absteigend
+# Sortierung der Liste (numerisch, absteigend nach Jahr
 FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr)
 
-# ---------------------- Paginierung ----------------------
+# Paginierung
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
 TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-#-------------------------GNU-Plot---------------------------
+# GNU-Plot
 # Filter lesen
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
 YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
@@ -49,7 +48,7 @@ YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
 # Action: anzeigen oder plot
 ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | tr 'A-Z' 'a-z')
 
-# PLOT KLICKEN--------------------------------------------------------------------------------------------
+# PLOT KLICKEN
 if [ "$ACTION" = "visualisierung" ]; then
 
     # Gnuplot-Daten vorbereiten
@@ -108,8 +107,7 @@ EOF
     exit 0  
 fi
 
-# ---------------------- HTML Header ----------------------
-
+# HTML-Header
 echo "Content-type: text/html; charset=UTF-8"
 echo ""
 echo "<html><head>"
