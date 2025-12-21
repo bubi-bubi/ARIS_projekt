@@ -11,8 +11,5 @@
 
 head -n 1 $1
 tail -n +2 $1 |
-sort -k 1nr |
+sort -k 1nr;
 
-head -n 1 $1
-tail -n +2 $1 |
-sort -k 2nr;
