@@ -26,10 +26,10 @@ NR>1 {
     if(year!="" && $1!=year) next
     if(filter=="frauen") {
         sum=$5+$6
-        print $1 ";" $2 ";" $3 ";" $4 ";" sum ";" $9
+        print $1 ";" $2 ";" $3 ";" $4 ";" sum
     } else if(filter=="maenner") {
         sum=$7+$8
-        print $1 ";" $2 ";" $3 ";" $4 ";" sum ";" $9
+        print $1 ";" $2 ";" $3 ";" $4 ";" sum
     } else {
         print $0
     }
