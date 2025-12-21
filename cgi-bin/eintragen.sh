@@ -14,15 +14,14 @@ getVal() {
     | sed 's/%20/ /g; s/%C3%A4/ä/g; s/%C3%B6/ö/g; s/%C3%BC/ü/g'
 }
 
-todesdatum=$(getVal "todesdatum")
+jahr=$(date -d "$todesdatum" +%Y)
+monat=$(date -d "$todesdatum" +%m)
+woche=$(date -d "$todesdatum" +%V)
+
 f0_64=$(getVal "f0_64")
 m0_64=$(getVal "m0_64")
 f65=$(getVal "f65")
 m65=$(getVal "m65")
-
-jahr=$(date -d "$todesdatum" +%Y)
-monat=$(date -d "$todesdatum" +%m)
-woche=$(date -d "$todesdatum" +%V)
 
 total=$((f0_64 + m0_64 + f65 + m65))
 
@@ -36,10 +35,10 @@ existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
 echo "<html><body>"
 
 if [ -z "$existing" ]; then
-    echo "$jahr;$monat;$woche;$todesdatum;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
+    echo "$jahr;$monat;$woche;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
     echo "<h3>Neuer Eintrag hinzugefügt.</h3>"
 else
-    IFS=";" read -r ej em ew ed ef0 ef65 em0 em65 et <<< "$existing"
+    IFS=";" read -r ej em ew ef0 ef65 em0 em65 et <<< "$existing"
 
     new_f0=$((ef0 + f0_64))
     new_f65=$((ef65 + f65))
@@ -48,14 +47,13 @@ else
     new_total=$((new_f0 + new_f65 + new_m0 + new_m65))
 
     awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
-        -v dd="$todesdatum" \
         -v nf0="$new_f0" -v nf65="$new_f65" \
         -v nm0="$new_m0" -v nm65="$new_m65" \
         -v nt="$new_total" \
     '
     NR==1 {print; next}
     $1==j && $2==m && $3==w {
-        print j ";" m ";" w ";" dd ";" nf0 ";" nf65 ";" nm0 ";" nm65 ";" nt
+        print j ";" m ";" w ";" nf0 ";" nf65 ";" nm0 ";" nm65 ";" nt
         next
     }
     {print}
