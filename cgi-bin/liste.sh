@@ -98,6 +98,7 @@ EOF
 echo "Content-Type: text/html; charset=UTF-8"
 echo ""
 echo "<html><head>"
+echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
 echo "<title>Visualisierung</title>"
 echo '<link rel="stylesheet" href="../css/style.css">'
 echo "</head><body class=\"anzeige\">"
