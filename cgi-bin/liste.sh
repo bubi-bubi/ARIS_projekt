@@ -149,7 +149,7 @@ echo "</table>"
 if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "<div style='margin-top:20px;'>"
 
-    LINK_BASE="liste.sh"
+    LINK_BASE="/cgi-bin/liste.sh"
     PARAMS=()
     [ -n "$FILTER" ] && PARAMS+=("filter=$FILTER")
     [ -n "$YEAR" ] && PARAMS+=("jahr=$YEAR")
