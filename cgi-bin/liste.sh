@@ -94,21 +94,17 @@ set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
 
-# HTML-Ausgabe statt rohes PNG
+# PNG in HTML einbetten
 echo "Content-Type: text/html; charset=UTF-8"
 echo ""
 echo "<html><head>"
 echo "<title>Visualisierung</title>"
 echo '<link rel="stylesheet" href="../css/style.css">'
 echo "</head><body class=\"anzeige\">"
-
-echo "<h1>Todesfälle Freiburg</h1>"
-
-# PNG direkt ins HTML einbetten
 echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
-
+# Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
-
+echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
 echo "</body></html>"
 
 rm "$TMP_PNG"
@@ -116,9 +112,6 @@ rm /tmp/plot_data.txt
 
 exit 0
 fi
-
-
-
 
 # HTML-Header
 echo "Content-type: text/html; charset=UTF-8"
