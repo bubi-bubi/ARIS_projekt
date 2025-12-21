@@ -129,6 +129,10 @@ select {
     transition: transform 0.1s ease-in-out;
 }
 
+.submit-btn:hover {
+    transform: scale(1.05);
+}
+
 /* CSS für Tabelle */
 .anzeige-table {
     width: 100%;
