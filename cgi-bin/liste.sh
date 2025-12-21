@@ -32,7 +32,7 @@ NR>1 {
 }' "$DATEI_PFAD")
 
 # Sortierung der Liste (numerisch, absteigend nach Jahr)
-FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr -k2,2nr)
+FILTERED_DATA=$(echo "$FILTERED_DATA" | sort -t';' -k1,1nr -k2,2nr -k3,3nr)
 
 # Paginierung
 TOTAL_LINES=$(echo "$FILTERED_DATA" | wc -l)
