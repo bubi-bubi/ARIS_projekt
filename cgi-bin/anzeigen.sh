@@ -71,9 +71,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-
-
-
 # Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"
 echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
