@@ -130,7 +130,7 @@ select {
 }
 
 .submit-btn:hover {
-    transform: scale(1.05);
+    transform: scale(5.05);
 }
 
 /* CSS für Tabelle */
