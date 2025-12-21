@@ -40,11 +40,6 @@ TOTAL_PAGES=$(( (TOTAL_LINES + PER_PAGE - 1) / PER_PAGE ))
 START=$(( (PAGE-1)*PER_PAGE + 1 ))
 END=$(( START + PER_PAGE - 1 ))
 
-# GNU-Plot
-# Filter lesen
-FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
-YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^year=' | cut -d'=' -f2)
-
 # Action: anzeigen oder plot
 ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | tr 'A-Z' 'a-z')
 
@@ -59,7 +54,7 @@ if [ "$ACTION" = "visualisierung" ]; then
         echo "$FILTERED_DATA" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
     fi
 
-    # Erstes und letztes Datum
+    # Erstes und letztes Datum (Monat + Jahr aus Spalte 4 direkt übernehmen)
     X1=$(head -n 1 /tmp/plot_data.txt | awk '{print $1}')
     LABEL1=$(echo "$FILTERED_DATA" | head -n 1 | awk -F';' '{print $4}')
 
@@ -68,21 +63,21 @@ if [ "$ACTION" = "visualisierung" ]; then
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-# Filtertext
-if [ -z "$FILTER" ]; then
-    FILTER_TEXT="Alle"
-else
-    FILTER_TEXT="$FILTER"
-fi
+    # Filtertext
+    if [ -z "$FILTER" ]; then
+        FILTER_TEXT="Alle"
+    else
+        FILTER_TEXT="$FILTER"
+    fi
 
-if [ -z "$YEAR" ]; then
-    YEAR_TEXT="alle Jahre"
-else
-    YEAR_TEXT="$YEAR"
-fi
+    if [ -z "$YEAR" ]; then
+        YEAR_TEXT="alle Jahre"
+    else
+        YEAR_TEXT="$YEAR"
+    fi
 
-#Gestaltung Gnuplot
-gnuplot <<EOF
+    # Gestaltung Gnuplot
+    gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
 
@@ -104,7 +99,7 @@ EOF
     rm "$TMP_PNG"
     rm /tmp/plot_data.txt
 
-    exit 0  
+    exit 0
 fi
 
 # HTML-Header
