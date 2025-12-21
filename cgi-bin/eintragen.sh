@@ -72,21 +72,10 @@ else
     mv "$tmpfile" "$dataset"
 
     echo "<p style='text-align:center; color:blue;'>Bestehender Eintrag wurde aktualisiert.</p>"
+    echo "<div style='text-align:center; margin-top:20px;'>"
+    echo "<a href='/formular.html'>Zurück zum Formular</a> | "
+    echo "<a href='/cgi-bin/anzeigen.sh'>Tabelle anzeigen</a>"
+    echo "</div>"
 fi
-
-# Tabelle anzeigen
-echo "<table border='1' cellpadding='6' cellspacing='0' style='margin:auto; border-collapse:collapse;'>"
-echo "<tr><th>Jahr</th><th>Monat</th><th>Woche</th><th>F 0-64</th><th>F 65+</th><th>M 0-64</th><th>M 65+</th><th>Total</th></tr>"
-
-while IFS=";" read -r col1 col2 col3 col4 col5 col6 col7 col8 col9; do
-    echo "<tr><td>$col1</td><td>$col2</td><td>$col3</td><td>$col4</td><td>$col5</td><td>$col6</td><td>$col7</td><td>$col8</td></tr>"
-done < "$dataset"
-
-echo "</table>"
-
-echo "<div style='text-align:center; margin-top:20px;'>"
-echo "<a href='/formular.html'>Zurück zum Formular</a> | "
-echo "<a href='/cgi-bin/anzeigen.sh'>Tabelle anzeigen</a>"
-echo "</div>"
 
 echo "</body></html>"
