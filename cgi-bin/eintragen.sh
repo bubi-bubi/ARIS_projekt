@@ -22,10 +22,10 @@ getVal() {
 # Todesdatum vom Formular
 todesdatum=$(getVal "todesdatum")
 
-# Jahr, Monat, Woche berechnen (immer zwei Ziffern)
+# Jahr, Monat, Woche berechnen, anhand vom Todesdatum
 jahr=$(date -d "$todesdatum" +%Y)
-monat=$(date -d "$todesdatum" +%m)   # 01-12
-woche=$(date -d "$todesdatum" +%V)   # 01-53
+monat=$(date -d "$todesdatum" +%m)
+woche=$(date -d "$todesdatum" +%V)
 
 # Zahlen aus dem Formular
 f0_64=$(getVal "f0_64")
@@ -46,17 +46,16 @@ echo "<h2 style='text-align:center;'>Todesfälle – Eintrag</h2>"
 
 if [ -z "$existing" ]; then
     # Neuer Eintrag
-    printf "%s;%02d;%02d;%d;%d;%d;%d;%d\n" "$jahr" "$monat" "$woche" "$f0_64" "$f65" "$m0_64" "$m65" "$total" >> "$dataset"
+    echo "$jahr;$monat;$woche;$f0_64;$f65;$m0_64;$m65;$total" >> "$dataset"
     echo "<p style='text-align:center; color:green;'>Neuer Eintrag wurde hinzugefügt.</p>"
 else
     # Update bestehender Eintrag
     IFS=";" read -r ej em ew ef0 ef65 em0 em65 et <<< "$existing"
 
-    # Additionen sicher mit Dezimalinterpretation (führende Null ignorieren)
-    new_f0=$((10#$ef0 + 10#$f0_64))
-    new_f65=$((10#$ef65 + 10#$f65))
-    new_m0=$((10#$em0 + 10#$m0_64))
-    new_m65=$((10#$em65 + 10#$m65))
+    new_f0=$((ef0 + f0_64))
+    new_f65=$((ef65 + f65))
+    new_m0=$((em0 + m0_64))
+    new_m65=$((em65 + m65))
     new_total=$((new_f0 + new_f65 + new_m0 + new_m65))
 
     awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
@@ -65,7 +64,7 @@ else
         -v nt="$new_total" \
     'NR==1 {print; next}
     $1==j && $2==m && $3==w {
-        printf "%s;%02d;%02d;%d;%d;%d;%d;%d\n", j, m, w, nf0, nf65, nm0, nm65, nt
+        print j ";" m ";" w ";" nf0 ";" nf65 ";" nm0 ";" nm65 ";" nt
         next
     }
     {print}' "$dataset" > "$tmpfile"
@@ -74,10 +73,9 @@ else
 
     echo "<p style='text-align:center; color:blue;'>Bestehender Eintrag wurde aktualisiert.</p>"
 fi
-
-echo "<div style='text-align:center; margin-top:20px;'>"
-echo "<a href='/formular.html'>Weiterer Todesfall erfassen</a> | "
-echo "<a href='/cgi-bin/liste.sh'>Tabelle anzeigen</a>"
-echo "</div>"
+    echo "<div style='text-align:center; margin-top:20px;'>"
+    echo "<a href='/formular.html'>Weiterer Todesfall erfassen</a> | "
+    echo "<a href='/cgi-bin/liste.sh'>Tabelle anzeigen</a>"
+    echo "</div>"
 
 echo "</body></html>"
