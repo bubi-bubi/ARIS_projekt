@@ -65,25 +65,30 @@ PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-    # Filtertext
-    if [ -z "$FILTER" ]; then
-        FILTER_TEXT="Alle"
-    else
-        FILTER_TEXT="$FILTER"
-    fi
+    # Filtertext für den Titel
+if [ -z "$FILTER" ]; then
+    FILTER_TEXT="Männer & Frauen"
+elif [ "$FILTER" = "frauen" ]; then
+    FILTER_TEXT="Frauen"
+elif [ "$FILTER" = "maenner" ]; then
+    FILTER_TEXT="Männer"
+else
+    FILTER_TEXT="$FILTER"
+fi
 
-    if [ -z "$YEAR" ]; then
-        YEAR_TEXT="alle Jahre"
-    else
-        YEAR_TEXT="$YEAR"
-    fi
+# Jahrestext für den Titel
+if [ -z "$YEAR" ]; then
+    YEAR_TEXT="alle Jahre"
+else
+    YEAR_TEXT="$YEAR"
+fi
 
-# Gestaltung Gnuplot
+# Gnuplot-Block
 gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
 
-set title "Todesfälle Freiburg – $FILTER_TEXT – $YEAR_TEXT"
+set title "$FILTER_TEXT – $YEAR_TEXT"
 set xlabel "Zeitraum"
 set ylabel "Anzahl Todesfälle"
 set grid
@@ -93,6 +98,7 @@ set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
+
 
 # PNG in HTML einbetten
 echo "Content-Type: text/html; charset=UTF-8"
