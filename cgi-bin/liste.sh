@@ -46,46 +46,47 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 # PLOT KLICKEN
 if [ "$ACTION" = "visualisierung" ]; then
 
-# Aufsteigende sortierung fürs Plotten
-# Aufsteigende Sortierung fürs Plotten nach Jahr, Monat, Woche
-PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n -k3,3n)
+    # Aufsteigende Sortierung fürs Plotten nach Jahr, Monat, Woche
+    PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n -k3,3n)
 
-# Gnuplot-Daten vorbereiten
-# x = NR, y = Total / Summe Frauen / Summe Männer
-if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
-    echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
-else
-    echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
-fi
+    # Gnuplot-Daten vorbereiten
+    # x = NR, y = Total / Summe Frauen / Summe Männer
+    if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
+        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
+    else
+        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
+    fi
 
-# Erstes und letztes Datum (Monat + Jahr) für X-Achse, mit führender Null für den Monat
-X1=1
-X2=$(wc -l < /tmp/plot_data.txt)
-LABEL1=$(echo "$PLOT_DATA_SORTED" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
-LABEL2=$(echo "$PLOT_DATA_SORTED" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+    # Erstes und letztes Datum (Monat + Jahr) für X-Achse
+    X1=1
+    X2=$(wc -l < /tmp/plot_data.txt)
 
-TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
+    # Sicherstellen, dass $1 = Jahr, $2 = Monat
+    LABEL1=$(echo "$PLOT_DATA_SORTED" | head -n1 | awk -F';' '{printf "%d-%d",$1+0,$2+0}')
+    LABEL2=$(echo "$PLOT_DATA_SORTED" | tail -n1 | awk -F';' '{printf "%d-%d",$1+0,$2+0}')
 
-# Filtertext für den Titel
-if [ -z "$FILTER" ]; then
-    FILTER_TEXT="Männer und Frauen"
-elif [ "$FILTER" = "frauen" ]; then
-    FILTER_TEXT="Frauen"
-elif [ "$FILTER" = "maenner" ]; then
-    FILTER_TEXT="Männer"
-else
-    FILTER_TEXT="$FILTER"
-fi
+    TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-# Jahrestext für den Titel
-if [ -z "$YEAR" ]; then
-    YEAR_TEXT="alle Jahre"
-else
-    YEAR_TEXT="$YEAR"
-fi
+    # Filtertext für den Titel
+    if [ -z "$FILTER" ]; then
+        FILTER_TEXT="Männer und Frauen"
+    elif [ "$FILTER" = "frauen" ]; then
+        FILTER_TEXT="Frauen"
+    elif [ "$FILTER" = "maenner" ]; then
+        FILTER_TEXT="Männer"
+    else
+        FILTER_TEXT="$FILTER"
+    fi
 
-# Gnuplot-Block
-gnuplot <<EOF
+    # Jahrestext für den Titel
+    if [ -z "$YEAR" ]; then
+        YEAR_TEXT="alle Jahre"
+    else
+        YEAR_TEXT="$YEAR"
+    fi
+
+    # Gnuplot-Block
+    gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
 
@@ -100,28 +101,27 @@ set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
 
+    # PNG in HTML einbetten
+    echo "Content-Type: text/html; charset=UTF-8"
+    echo ""
+    echo "<html><head>"
+    echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
+    echo '<link rel="stylesheet" href="../css/style.css">'
+    echo "<title>Visualisierung</title>"
+    echo "<header><h1>Todesfälle Freiburg</h1></header>"
+    echo "</head><body class=\"anzeige\">"
+    echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
+    # Footer
+    echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
+    echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
+    echo "</body></html>"
 
+    rm "$TMP_PNG"
+    rm /tmp/plot_data.txt
 
-# PNG in HTML einbetten
-echo "Content-Type: text/html; charset=UTF-8"
-echo ""
-echo "<html><head>"
-echo '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">'
-echo '<link rel="stylesheet" href="../css/style.css">'
-echo "<title>Visualisierung</title>"
-echo "<header><h1>Todesfälle Freiburg</h1></header>"
-echo "</head><body class=\"anzeige\">"
-echo "<img src='data:image/png;base64,$(base64 "$TMP_PNG")' style='display:block; margin:40px auto; max-width:100%; height:auto;'>"
-# Footer
-echo "<section><p>Zurück zur <a href=\"../index.html\">Auswahl</a>.</p></section>"
-echo "<footer><p>&copy; Todesfälle Freiburg</p></footer>"
-echo "</body></html>"
-
-rm "$TMP_PNG"
-rm /tmp/plot_data.txt
-
-exit 0
+    exit 0
 fi
+
 
 # HTML-Header
 echo "Content-type: text/html; charset=UTF-8"
