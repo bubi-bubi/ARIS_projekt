@@ -65,6 +65,6 @@ else
 fi
 
 echo "<a href=\"/formular.html\">Zurück</a><br>"
-echo "<a href=\"/cgi-bin/neue_liste.sh\">Neue Liste anzeigen</a><br>"
+echo "<a href=\"/cgi-bin/anzeigen.sh\">Neue Liste anzeigen</a><br>"
 
 echo "</body></html>"
