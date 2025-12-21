@@ -74,7 +74,7 @@ else
     echo "<p style='text-align:center; color:blue;'>Bestehender Eintrag wurde aktualisiert.</p>"
 fi
     echo "<div style='text-align:center; margin-top:20px;'>"
-    echo "<a href='/formular.html'>Zurück zum Formular</a> | "
+    echo "<a href='/formular.html'>Weiterer Todesfall erfassen</a> | "
     echo "<a href='/cgi-bin/test1.sh'>Tabelle anzeigen</a>"
     echo "</div>"
 
