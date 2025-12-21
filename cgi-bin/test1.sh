@@ -26,10 +26,10 @@ NR>1 {
     if(year!="" && $1!=year) next
     if(filter=="frauen") {
         sum=$5+$6
-        print $1 ";" $2 ";" $3 ";" $4 ";" sum ";" $9
+        print $1 ";" $2 ";" $3 ";" $4 ";" sum
     } else if(filter=="maenner") {
         sum=$7+$8
-        print $1 ";" $2 ";" $3 ";" $4 ";" sum ";" $9
+        print $1 ";" $2 ";" $3 ";" $4 ";" sum
     } else {
         print $0
     }
@@ -123,9 +123,9 @@ echo "<table class=\"anzeige-table\" border='1' cellpadding='6' cellspacing='0'>
 head -n 1 "$DATEI_PFAD" | awk -F';' -v filter="$FILTER" '{
     print "<tr>";
     if (filter=="frauen") {
-        print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Wochenstart</th><th>Frauen gesamt</th><th>Total</th>"
+        print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Frauen gesamt</th><th>Total</th>"
     } else if (filter=="maenner") {
-        print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Wochenstart</th><th>Männer gesamt</th><th>Total</th>"
+        print "<th>Jahr</th><th>Monat</th><th>Woche</th><th>Männer gesamt</th><th>Total</th>"
     } else {
         for(i=1;i<=NF;i++) print "<th>" $i "</th>";
     }

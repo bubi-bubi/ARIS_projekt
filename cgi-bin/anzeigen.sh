@@ -80,7 +80,7 @@ fi
 #Sortierung Tabelle
 head -n 1 $1
 tail -n +2 $1 |
-sort -k 1nr | sort -k 2nr
+sort -k 1nr
 
 # Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"

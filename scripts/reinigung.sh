@@ -9,10 +9,6 @@
 #sed 's/Hommes 0-64/Männer 0-64/' |
 #sed 's/Hommes 65+/Männer 65+/'|
 
-#head -n 1 $1
-#tail -n +2 $1 |
-#sort -k 1nr;
-
-head -n 1 $1 |
+head -n 1 $1
 tail -n +2 $1 |
-sort -k 2nr;
+sort -k 1nr;
