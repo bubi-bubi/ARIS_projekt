@@ -34,6 +34,11 @@ head -n 1 "$DATEI_PFAD" | awk -F';' '{
 # Datenzeilen
 FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD")  # keine Filter, einfach alle Daten
 
+#Sortierung Tabelle
+head -n 1 $1
+tail -n +2 $1 |
+sort -k 1nr;
+
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
     row_num = NR
     if (row_num >= start && row_num <= end) {
@@ -42,12 +47,6 @@ echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
         print "</tr>"
     }
 }'
-
-awk -F',' '{
-  if ($2 ~ /^[0-9]$/)
-    $2 = "0" $2
-  print
-}' 
 
 echo "</table>"
 
@@ -77,10 +76,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
     echo "</div>"
 fi
 
-#Sortierung Tabelle
-head -n 1 $1
-tail -n +2 $1 |
-sort -k 1nr
 
 # Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"
