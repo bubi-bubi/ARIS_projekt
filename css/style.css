@@ -155,3 +155,10 @@ label {
     background: rgb(238,222,188); 
 }
 
+.plot {
+    display: block;
+    margin: 40px auto;
+    max-width: 100%;
+    height: auto;
+}
+
