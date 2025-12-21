@@ -47,25 +47,26 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 if [ "$ACTION" = "visualisierung" ]; then
 
 # Aufsteigende sortierung fürs Plotten
-PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n)
+# Aufsteigende Sortierung fürs Plotten nach Jahr, Monat, Woche
+PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n -k3,3n)
 
-    # Gnuplot-Daten vorbereiten
-    # x = NR, y = Total / Summe Frauen / Summe Männer
-    if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
-        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
-    else
-        echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
-    fi
+# Gnuplot-Daten vorbereiten
+# x = NR, y = Total / Summe Frauen / Summe Männer
+if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
+    echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
+else
+    echo "$PLOT_DATA_SORTED" | awk -F';' '{print NR, $NF}' > /tmp/plot_data.txt
+fi
 
-    # Erstes und letztes Datum (Monat + Jahr)
-    X1=1
-    X2=$(wc -l < /tmp/plot_data.txt)
-    LABEL1=$(echo "$PLOT_DATA_SORTED" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
-    LABEL2=$(echo "$PLOT_DATA_SORTED" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+# Erstes und letztes Datum (Monat + Jahr) für X-Achse, mit führender Null für den Monat
+X1=1
+X2=$(wc -l < /tmp/plot_data.txt)
+LABEL1=$(echo "$PLOT_DATA_SORTED" | head -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
+LABEL2=$(echo "$PLOT_DATA_SORTED" | tail -n 1 | awk -F';' '{printf "%02d-%d",$2,$1}')
 
-    TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
+TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-    # Filtertext für den Titel
+# Filtertext für den Titel
 if [ -z "$FILTER" ]; then
     FILTER_TEXT="Männer und Frauen"
 elif [ "$FILTER" = "frauen" ]; then
@@ -98,6 +99,7 @@ set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
+
 
 
 # PNG in HTML einbetten
