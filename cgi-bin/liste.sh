@@ -47,7 +47,6 @@ ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | 
 if [ "$ACTION" = "visualisierung" ]; then
 
     # Gnuplot-Daten vorbereiten
-    # x = NR, y = Total / Summe Frauen / Summe Männer
     if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
         echo "$FILTERED_DATA" | awk -F';' '{print NR, $5}' > /tmp/plot_data.txt
     else
@@ -76,7 +75,6 @@ if [ "$ACTION" = "visualisierung" ]; then
         YEAR_TEXT="$YEAR"
     fi
 
-    # Gestaltung Gnuplot
     gnuplot <<EOF
 set term pngcairo size 900,600
 set output "$TMP_PNG"
@@ -86,6 +84,7 @@ set xlabel "Zeitraum" offset 0,3
 set ylabel "Anzahl Todesfälle"
 set grid
 
+# explizites xtics-Format: nur Start- und Enddatum als Beschriftung
 set xtics rotate by 90 right
 set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
 
@@ -101,6 +100,7 @@ EOF
 
     exit 0
 fi
+
 
 # HTML-Header
 echo "Content-type: text/html; charset=UTF-8"
