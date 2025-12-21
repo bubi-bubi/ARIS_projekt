@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 echo "Content-type: text/html; charset=UTF-8"
@@ -31,17 +32,11 @@ head -n 1 "$DATEI_PFAD" | awk -F';' '{
     print "</tr>";
 }'
 
-# Datenzeilen
-FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD")  # keine Filter, einfach alle Daten
-
-#Sortierung Tabelle
-head -n 1 $1
-tail -n +2 $1 |
-sort -k 1nr;
+# Datenzeilen sortieren und paginieren
+FILTERED_DATA=$(tail -n +2 "$DATEI_PFAD" | sort -t';' -k1,1nr)
 
 echo "$FILTERED_DATA" | awk -F';' -v start=$START -v end=$END '{
-    row_num = NR
-    if (row_num >= start && row_num <= end) {
+    if (NR >= start && NR <= end) {
         print "<tr>";
         for(i=1;i<=NF;i++) print "<td>" $i "</td>";
         print "</tr>"
@@ -75,7 +70,6 @@ if [ "$TOTAL_PAGES" -gt 1 ]; then
 
     echo "</div>"
 fi
-
 
 # Footer
 echo "<section><p>Zurück zur <a href=\"../index.html\">Hauptseite</a>.</p></section>"
