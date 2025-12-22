@@ -34,7 +34,7 @@ f65=$(getVal "f65")
 m65=$(getVal "m65")
 total=$((f0_64 + m0_64 + f65 + m65))
 
-# Prüfen, ob Eintrag für Jahr/Monat/Woche existiert
+# Prüfen, ob Eintrag für Jahr/Monat/Woche bereits existiert
 existing=$(awk -F";" -v j="$jahr" -v m="$monat" -v w="$woche" \
  'NR>1 && $1==j && $2==m && $3==w {print; exit}' "$dataset")
 
@@ -52,7 +52,7 @@ else
     # Update bestehender Eintrag
     IFS=";" read -r ej em ew ef0 ef65 em0 em65 et <<< "$existing"
 
-    # Additionen sicher mit Dezimalinterpretation (führende Null ignorieren)
+    # Additionen (führende Null ignorieren)
     new_f0=$((10#$ef0 + 10#$f0_64))
     new_f65=$((10#$ef65 + 10#$f65))
     new_m0=$((10#$em0 + 10#$m0_64))
