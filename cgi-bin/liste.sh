@@ -14,7 +14,7 @@ YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^jahr=' | cut -d'=' -f2)
 
 YEAR_FROM=""
 YEAR_TO=""
-
+    # mehrere Jahre ermöglichen bsp. 2000-2003
 if [[ "$YEAR" =~ ^([0-9]{4})-([0-9]{4})$ ]]; then
     YEAR_FROM="${BASH_REMATCH[1]}"
     YEAR_TO="${BASH_REMATCH[2]}"
@@ -67,6 +67,68 @@ if [ "$ACTION" = "visualisierung" ]; then
     # Aufsteigende Sortierung fürs Plotten nach Jahr, Monat, Woche
     PLOT_DATA_SORTED=$(echo "$FILTERED_DATA" | sort -t';' -k1,1n -k2,2n -k3,3n)
 
+
+# Filtertext für den Titel
+    if [ -z "$FILTER" ]; then
+        FILTER_TEXT="Männer und Frauen"
+    elif [ "$FILTER" = "frauen" ]; then
+        FILTER_TEXT="Frauen"
+    elif [ "$FILTER" = "maenner" ]; then
+        FILTER_TEXT="Männer"
+    else
+        FILTER_TEXT="$FILTER"
+    fi
+
+    # Jahrestext für den Titel
+    if [ -z "$YEAR_FROM" ]; then
+        YEAR_TEXT="alle Jahre"
+    elif [ "$YEAR_FROM" = "$YEAR_TO" ]; then
+        YEAR_TEXT="Jahr $YEAR_FROM"
+    else
+        YEAR_TEXT="Zeitraum $YEAR_FROM–$YEAR_TO"
+    fi
+
+    # Zeitraum (Anzahl Jahre) berechnen
+    if [ -n "$YEAR_FROM" ] && [ -n "$YEAR_TO" ]; then
+        YEAR_SPAN=$((YEAR_TO - YEAR_FROM + 1))
+    else
+        YEAR_SPAN=0
+    fi
+
+    # Detailgrad der X-Achse festlegen
+    if [ "$YEAR_SPAN" -le 1 ] && [ "$YEAR_SPAN" -gt 0 ]; then
+        TIC_MODE="monthly"
+    elif [ "$YEAR_SPAN" -le 3 ] && [ "$YEAR_SPAN" -gt 1 ]; then
+        TIC_MODE="quarterly"
+    else
+        TIC_MODE="yearly"
+    fi
+
+    # Dynamische X-Achse, so dass die Grafik besser lesbar ist
+
+XTICS=$(echo "$PLOT_DATA_SORTED" | awk -F';' -v mode="$TIC_MODE" '
+{
+    key = $1 "-" $2       # Jahr-Monat als Key
+    if (seen[key]) next   # bereits gesehen → überspringen
+
+    show = 0
+    if (mode == "monthly") { show = 1 }
+    else if (mode == "quarterly") { if ($2==1 || $2==4 || $2==7 || $2==10) show=1 }
+    else if (mode == "yearly") { if ($2==1) show=1 }
+
+    if (show) {
+        ticks[++n] = sprintf("\"%d-%02d\" %d", $1, $2, NR)
+        seen[key] = 1
+    }
+}
+END { 
+    for(i=1;i<=n;i++){
+        printf "%s", ticks[i]
+        if(i<n) printf ", "
+    } 
+}')
+
+
     # Gnuplot-Daten vorbereiten
     # x = NR, y = Total / Summe Frauen / Summe Männer
     if [ "$FILTER" = "frauen" ] || [ "$FILTER" = "maenner" ]; then
@@ -85,24 +147,6 @@ if [ "$ACTION" = "visualisierung" ]; then
 
     TMP_PNG=$(mktemp /tmp/plotXXXXXX.png)
 
-    # Filtertext für den Titel
-    if [ -z "$FILTER" ]; then
-        FILTER_TEXT="Männer und Frauen"
-    elif [ "$FILTER" = "frauen" ]; then
-        FILTER_TEXT="Frauen"
-    elif [ "$FILTER" = "maenner" ]; then
-        FILTER_TEXT="Männer"
-    else
-        FILTER_TEXT="$FILTER"
-    fi
-
-    # Jahrestext für den Titel
-    if [ -z "$YEAR" ]; then
-        YEAR_TEXT="alle Jahre"
-    else
-        YEAR_TEXT="$YEAR"
-    fi
-
     # Gnuplot-Block
     gnuplot <<EOF
 set term pngcairo size 900,600
@@ -114,7 +158,7 @@ set ylabel "Anzahl Todesfälle"
 set grid
 
 set xtics rotate by 90 right
-set xtics ("$LABEL1" $X1, "$LABEL2" $X2)
+set xtics ($XTICS)
 
 plot "/tmp/plot_data.txt" using 1:2 with lines lw 2 lc rgb "#0066cc" title "Anzahl"
 EOF
