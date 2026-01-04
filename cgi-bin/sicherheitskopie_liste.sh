@@ -12,32 +12,14 @@ PAGE=${PAGE:-1}
 FILTER=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^filter=' | cut -d'=' -f2)
 YEAR=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^jahr=' | cut -d'=' -f2)
 
-YEAR_FROM=""
-YEAR_TO=""
-
-if [[ "$YEAR" =~ ^([0-9]{4})-([0-9]{4})$ ]]; then
-    YEAR_FROM="${BASH_REMATCH[1]}"
-    YEAR_TO="${BASH_REMATCH[2]}"
-elif [[ "$YEAR" =~ ^[0-9]{4}$ ]]; then
-    YEAR_FROM="$YEAR"
-    YEAR_TO="$YEAR"
-fi
-
 ACTION=$(echo "$QUERY_STRING" | tr '&' '\n' | grep '^action=' | cut -d'=' -f2 | tr 'A-Z' 'a-z')
 
 PER_PAGE=20
 
 # Filterung der Liste
-FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" -v y_from="$YEAR_FROM" -v y_to="$YEAR_TO" '
+FILTERED_DATA=$(awk -F';' -v filter="$FILTER" -v year="$YEAR" '
 NR>1 {
-    if (year != "") {
-        if (y_from != "" && y_to != "") {
-            if ($1 < y_from || $1 > y_to) next
-        } else {
-            if ($1 != year) next
-        }
-    }
-
+    if(year!="" && $1!=year) next
     if(filter=="frauen") {
         sum=$5+$6
         print $1 ";" $2 ";" $3 ";" $4 ";" sum
